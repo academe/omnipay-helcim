@@ -1,0 +1,39 @@
+{
+    "name": "omnipay/helcim",
+    "type": "library",
+    "description": "Helcim gateway for the Omnipay payment processing library",
+    "keywords": [
+        "helcim",
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment"
+    ],
+    "homepage": "https://github.com/academe/helcim",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jason Judge",
+            "email": "jason@academe.co.uk"
+        },
+        {
+            "name": "Omnipay Contributors",
+            "homepage": "https://github.com/omnipay/authorizenet/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Omnipay\\Helcim\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "~2.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}
