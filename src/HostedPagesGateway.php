@@ -108,9 +108,21 @@ class HostedPagesGateway extends AbstractGateway
     /**
      * The different types of request.
      */
+
+    /**
+     * For handling a purchase.
+     */
     public function purchase(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Helcim\Message\HostedPagesPurchaseRequest', $parameters);
+    }
+
+    /**
+    * For the return URL.
+    */
+    public function completePurchase(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Helcim\Message\HostedPagesCompletePurchase', $parameters);
     }
 
     /**
