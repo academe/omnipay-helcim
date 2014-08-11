@@ -7,5 +7,5 @@ namespace Omnipay\Helcim\Message;
  */
 class HostedPagesPurchaseRequest extends HostedPagesAuthorizeRequest
 {
-    protected $type = 'void'; //'purchase';
+    protected $type = 'purchase';
 }

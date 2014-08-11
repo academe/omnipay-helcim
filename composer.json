@@ -1,5 +1,5 @@
 {
-    "name": "omnipay/helcim",
+    "name": "academe/omnipay-helcim",
     "type": "library",
     "description": "Helcim gateway for the Omnipay payment processing library",
     "keywords": [
@@ -10,7 +10,7 @@
         "pay",
         "payment"
     ],
-    "homepage": "https://github.com/academe/helcim",
+    "homepage": "https://github.com/academe/omnipay-helcim",
     "license": "MIT",
     "authors": [
         {
@@ -19,7 +19,7 @@
         },
         {
             "name": "Omnipay Contributors",
-            "homepage": "https://github.com/omnipay/authorizenet/contributors"
+            "homepage": "https://github.com/omnipay/omnipay/contributors"
         }
     ],
     "autoload": {
