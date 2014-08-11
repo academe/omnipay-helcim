@@ -112,7 +112,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * Get the billing data.
+     * Get the billing data (not including the entered card details).
      * This includes mainly optional and some mandatory details.
      */
     protected function getBillingData()
@@ -228,6 +228,43 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         }
 
         return $data;
+    }
+
+    /**
+     * Get the card data.
+     * Only used for direct API mode.
+     * Start date and issue number are not supported.
+     */
+    protected function getCardData()
+    {
+        $card = array();
+
+        if ($card = $this->getCard()) {
+            if ($card->getNumber()) {
+                $data['cardNumber'] = $card->getNumber();
+            }
+
+            // CHECKME: will this work if the year is '00'?
+            // Not that '00' will happen for a while, but good just to be sure.
+
+            if ($card->getExpiryMonth() && $card->getExpiryYear()) {
+                $data['expiryDate'] = $card->getExpiryDate('%m%y');
+            }
+
+            $getCvv = $card->getCvv();
+            if (isset($getCvv) && $getCvv != '') {
+                $data['cvv'] = $getCvv;
+            }
+
+            // A customer field for Helcim, indicates how CVV will be handled.
+            // The documentation lists this as mandatory for direct mode.
+
+            if ($this->getCvvIndicator()) {
+                $data['cvvIndicator'] = $this->getCvvIndicator();
+            }
+        }
+
+        return $card;
     }
 
     /**
