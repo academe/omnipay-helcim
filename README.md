@@ -1,4 +1,4 @@
-# Omnipay: Helcim
+# Omnipay: Helcim Interface
 
 **Helcim driver for the Omnipay PHP payment processing library**
 
@@ -11,6 +11,8 @@ It supports both GET and POST. It will aim to support all features and actions o
 ## Notes on How Helcim Works
 
 Following are some notes on how the Helcim gateway works. They help to put this gateway interfave into context.
+
+Service home page: https://www.helcim.com/
 
 The Helcim site accepts either GET or POST data; they are completely interchangeable.
 This gateway interface leaves the choice of which to use up to you. For a simple "donate" button or
