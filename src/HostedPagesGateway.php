@@ -122,7 +122,7 @@ class HostedPagesGateway extends AbstractGateway
     */
     public function completePurchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Helcim\Message\HostedPagesCompletePurchase', $parameters);
+        return $this->createRequest('\Omnipay\Helcim\Message\HostedPagesCompletePurchaseRequest', $parameters);
     }
 
     /**
