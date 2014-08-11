@@ -41,3 +41,8 @@ Unlike many payment gateways, the return URL is not provided at run-time by your
 The cancel button on a Hosted Page payment page will take the user back to the home page or your site,
 which is not ideal. You may be able to disable and replace the cancel button with a more apprpriate
 URL using CSS. You do have control of CSS styles when setting up a payment form.
+
+The Helcim gateway will return to your site via a POST. This means your site must have a valid SSL
+certificate to accept the POST from the gateway running in SSL/HTTPS. POSTing from a secure Hosted Page
+to an unsecure page on your site will result in a browser error, and also in the results of the payment
+being sent as clear-text (unencrypted).
