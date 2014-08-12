@@ -22,9 +22,9 @@ the form, such as customer address, names, basket detaill, the POST is more appr
 
 There are two modes of operation:
 
-* Direct mode, where credit card details are taken on your site, and no customer leaves your site.
+* **Direct mode**, where credit card details are taken on your site, and no customer leaves your site.
   You will need to be PCI-registered to use this mode.
-* Hosted Page mode, where the user is sent to one of a number of pre-defined forms on the Helcim site.
+* **Hosted Page mode**, where the user is sent to one of a number of pre-defined forms on the Helcim site.
   You do not need to bve PCI-registered for this mode of operation, but there is a risk of details
   being passed between your site and Helcim being manipulated by the user.
   This is not ideal, and reconciliation therefore plays an important part in using this mode.
@@ -36,7 +36,7 @@ With this in mind, you need to be careful not to trust the results of a successf
 some kind of reconciliation first. i.e. don't ship the goods until you have checked teh transactions
 in the Helcim account.
 
-There is an API to get lists of transactions, so that can probably be used to check the validity of
+There is an API to get lists of transactions, so that can *probably* be used to check the validity of
 a result posted back to your site. This will involve some overlap between the Hosted Pages and the Direct
 modes of operation.
 
@@ -52,10 +52,14 @@ certificate to accept the POST from the gateway running in SSL/HTTPS. POSTing fr
 to an unsecure page on your site will result in a browser error, and also in the results of the payment
 being sent as clear-text (unencrypted).
 
+To get around the lack of programmable return URLs, and the lack of an "unauthorised" reponse back to
+your site, I strongly suspect that the form will need to be used within am iframe to be able to control
+the flow for the user more smoothly and more intuitively.
+
 It appears at the moment that the Helcim Hosted Page payment form will never return a "declined" or error
 status to your site. The user will remain on the page until they either successfully get a card approved,
 or fail a number of times are are sent to the "cancel" URL (the site home page, set up for the account - NOT specific for each form).
 
-The Hosted Page mode supports authorize (aka preAuth) and purchase actions only. The remaining actions are available
-through the direct API.
+The Hosted Page mode supports `authorize` (aka preAuth) and `purchase` actions ("type" field) only.
+The remaining actions are available through the direct API.
 
