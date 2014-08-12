@@ -80,7 +80,8 @@ The Merchant ID is a numeric value and unque to your account. The token varies d
 it is used.
 
 The API has a single token defined for it. You would never allow end users to see that token, as
-it gives full access to the API. It is just used for back-end operations.
+it gives full access to the API. It is just used for back-end operations. This token can be renewed
+any time there is a suspician it may have been compromised.
 
 When running in Hosted Page mode, each form has its own token. Those tokens *are* visible to
 end users when those users are redirected to the form(s).
