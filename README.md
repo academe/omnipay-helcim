@@ -38,7 +38,8 @@ in the Helcim account.
 
 There is an API to get lists of transactions, so that can *probably* be used to check the validity of
 a result posted back to your site. This will involve some overlap between the Hosted Pages and the Direct
-modes of operation.
+modes of operation. (Note: the API may not actually allow fetching of transactions by transaction ID, which
+would be a big let-down, and maybe a total blocker for being able to use the Hosted Pages securely.)
 
 When using the Hosted Page mode, the page will need the return URL set in advance. 
 Unlike many payment gateways, the return URL is not provided at run-time by your application.
@@ -65,4 +66,9 @@ The remaining actions are available through the direct API. However, it is not p
 action was used based on the response data, as they are identical in format. To ensure the correct
 method is called (`completeAuthorize()` or `completePurchase()`) some other method needs to be used,
 most likely a flag in the session.
+
+There appears to be nowhere to set the currency for an account or payment. The Hosted Pages forms
+just accept a number and return a number when paid. So "9.99" could be anything. Except that is not
+how things should work.
+
 
