@@ -38,8 +38,14 @@ in the Helcim account.
 
 There is an API to get lists of transactions, so that can *probably* be used to check the validity of
 a result posted back to your site. This will involve some overlap between the Hosted Pages and the Direct
-modes of operation. (Note: the API may not actually allow fetching of transactions by transaction ID, which
-would be a big let-down, and maybe a total blocker for being able to use the Hosted Pages securely.)
+modes of operation. *(Note: the API may not actually allow fetching of transactions by transaction ID, which
+would be a big let-down, and maybe a total blocker for being able to use the Hosted Pages securely.)*
+
+The fetching of transactions through the API does not include the transaction type, even though the
+transaction type is available on the transaction details in the admin pages. In theory, an end user could
+change the transactino type from `purchase` to `preAuth` without being detected by the interface,
+and unless there are administration processes in place to catch this, and `capture` an authorised payment,
+some payments could possibly be lost.
 
 When using the Hosted Page mode, the page will need the return URL set in advance. 
 Unlike many payment gateways, the return URL is not provided at run-time by your application.
@@ -67,9 +73,13 @@ action was used based on the response data, as they are identical in format. To 
 method is called (`completeAuthorize()` or `completePurchase()`) some other method needs to be used,
 most likely a flag in the session.
 
+### Currency Identification
+
 There appears to be nowhere to set the currency for an account or payment. The Hosted Pages forms
 just accept a number and return a number when paid. So "9.99" could be anything. Except that is not
 how things should work.
+
+### Authentication ID
 
 When connecting to the Helcim forms or API, two identication parts are needed:
 
@@ -86,4 +96,20 @@ any time there is a suspician it may have been compromised.
 When running in Hosted Page mode, each form has its own token. Those tokens *are* visible to
 end users when those users are redirected to the form(s).
 
+### Other Questions
+
 What appears on the bank statements when payments are made? No idea yet.
+
+### Conclusions
+
+This payment gateway is a bit of an odd-ball. The Hosted Pages are okay for accepting donations or
+taking payments that are are reconciled manually by the recipient later. However, using the
+Hosted Pages as the payment gateway for an e-commerce shop is fraught with potential problems,
+which I am still trying to find workarounds for. Use with caution, in the meantime.
+
+I have no comments on the Direct mode as I have not attempted to use that yet. The Direct mode
+would need your site to be PCI compliant and registered, which is a whole other headeache that
+is best avoided.
+
+With both modes, you *do* need a SSL certificate on your site, regardless of what the documentation
+says.
