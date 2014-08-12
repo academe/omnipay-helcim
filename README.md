@@ -73,10 +73,10 @@ how things should work.
 
 When connecting to the Helcim forms or API, two identication parts are needed:
 
-* Merchand ID
+* Merchant ID
 * Token
 
-The mercahent ID is a numeric value and unque to your account. The token varies depending on how
+The Merchant ID is a numeric value and unque to your account. The token varies depending on how
 it is used.
 
 The API has a single token defined for it. You would never allow end users to see that token, as
