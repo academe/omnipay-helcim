@@ -330,9 +330,9 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * The endpoint varies depending on developer mode, emulation and whether the method is GET or POST.
-     * If the method is GET, then the data needs to be added to the URL.
-     * @todo support "&emulate=ecwid"
+     * The endpoint varies depending on developer mode, and whether the method is GET or POST.
+     * If the method is GET, then the data needs to be added to the URL here. I've not found any
+     * helper functions to construct URLs in omnipay yet, but they could be there.
      */
     public function getEndpoint()
     {
