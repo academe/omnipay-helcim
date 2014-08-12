@@ -47,6 +47,8 @@ change the transactino type from `purchase` to `preAuth` without being detected 
 and unless there are administration processes in place to catch this, and `capture` an authorised payment,
 some payments could possibly be lost.
 
+### URLs
+
 When using the Hosted Page mode, the page will need the return URL set in advance. 
 Unlike many payment gateways, the return URL is not provided at run-time by your application.
 
@@ -63,9 +65,14 @@ To get around the lack of programmable return URLs, and the lack of an "unauthor
 your site, I strongly suspect that the form will need to be used within am iframe to be able to control
 the flow for the user more smoothly and more intuitively.
 
+### Hosted Pages Return Data
+
 It appears at the moment that the Helcim Hosted Page payment form will never return a "declined" or error
-status to your site. The user will remain on the page until they either successfully get a card approved,
-or fail a number of times are are sent to the "cancel" URL (the site home page, set up for the account - NOT specific for each form).
+status to your site. The user will remain on the payment page until they either successfully get a card approved,
+or fail a number of times are are sent to the "cancel" URL (the site home page, set up for the account
+- NOT specific for each form).
+
+### Hosted Pages Actions/Types
 
 The Hosted Page mode supports `authorize` (aka preAuth) and `purchase` actions ("type" field) only.
 The remaining actions are available through the direct API. However, it is not possible to tell which
@@ -103,7 +110,7 @@ What appears on the bank statements when payments are made? No idea yet.
 ### Conclusions
 
 This payment gateway is a bit of an odd-ball. The Hosted Pages are okay for accepting donations or
-taking payments that are are reconciled manually by the recipient later. However, using the
+taking payments that are reconciled manually by the recipient later. However, using the
 Hosted Pages as the payment gateway for an e-commerce shop is fraught with potential problems,
 which I am still trying to find workarounds for. Use with caution, in the meantime.
 
