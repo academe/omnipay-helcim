@@ -61,5 +61,8 @@ status to your site. The user will remain on the page until they either successf
 or fail a number of times are are sent to the "cancel" URL (the site home page, set up for the account - NOT specific for each form).
 
 The Hosted Page mode supports `authorize` (aka preAuth) and `purchase` actions ("type" field) only.
-The remaining actions are available through the direct API.
+The remaining actions are available through the direct API. However, it is not possible to tell which
+action was used based on the response data, as they are identical in format. To ensure the correct
+method is called (`completeAuthorize()` or `completePurchase()`) some other method needs to be used,
+most likely a flag in the session.
 
