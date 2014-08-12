@@ -23,7 +23,6 @@ class HostedPagesGateway extends AbstractGateway
             'merchantId' => '',
             'gatewayToken' => '',
             'method' => 'GET',
-            'type' => 'purchase',
             'testMode' => false,
             'developerMode' => false,
             'shippingAmount' => 0,
@@ -118,11 +117,27 @@ class HostedPagesGateway extends AbstractGateway
     }
 
     /**
-    * For the return URL.
+    * For the return path from the remote Hosted Page.
     */
     public function completePurchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Helcim\Message\HostedPagesCompletePurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\Helcim\Message\HostedPagesCompleteRequest', $parameters);
+    }
+
+    /**
+     * For handling an authorise action.
+     */
+    public function authorize(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Helcim\Message\HostedPagesAuthorizeRequest', $parameters);
+    }
+
+    /**
+    * For the return path from the remote Hosted Page.
+    */
+    public function completeAuthorize(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Helcim\Message\HostedPagesCompleteRequest', $parameters);
     }
 
     /**

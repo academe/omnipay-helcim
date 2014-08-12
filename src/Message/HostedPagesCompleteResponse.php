@@ -6,8 +6,9 @@ use Omnipay\Common\Message\AbstractResponse;
 
 /**
 * Helcim Hosted Page Complete Authorize Response
+* Used by both authorize and purchase.
 */
-class HostedPagesCompletePurchaseResponse extends AbstractResponse
+class HostedPagesCompleteResponse extends AbstractResponse
 {
     public function isSuccessful()
     {

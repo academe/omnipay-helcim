@@ -10,6 +10,7 @@ use Omnipay\Common\Message\RedirectResponseInterface;
  * Helcim Hosted Pages Authorize Response.
  * This is a "fake" rssponse - it does not come from the remote payment gateway, but is generated
  * locally. It contains the next action, with may be a redirect to the hosted payment page.
+ * This response is used by both authorize and purchase.
  */
 class HostedPagesResponse extends AbstractResponse implements RedirectResponseInterface
 {

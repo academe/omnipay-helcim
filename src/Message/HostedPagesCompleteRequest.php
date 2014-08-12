@@ -6,9 +6,12 @@ use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
 * Helcim Hosted Page Complete Purchase Request
+* Used by both authorize and purchase.
 */
-class HostedPagesCompletePurchaseRequest extends AbstractRequest
+class HostedPagesCompleteRequest extends AbstractRequest
 {
+    protected $type = 'preauth';
+
     public function getData()
     {
         // No hashes in Helcim Hosted Pages yet.
@@ -27,7 +30,7 @@ class HostedPagesCompletePurchaseRequest extends AbstractRequest
 
     public function sendData($data)
     {
-        return $this->response = new HostedPagesCompletePurchaseResponse($this, $data);
+        return $this->response = new HostedPagesCompleteResponse($this, $data);
     }
 }
 
