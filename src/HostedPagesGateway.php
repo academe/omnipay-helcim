@@ -2,15 +2,10 @@
 
 namespace Omnipay\Helcim;
 
-//use Omnipay\Helcim\Message\XXXAuthorizeRequest;
-//use Omnipay\Helcim\Message\XXXPurchaseRequest;
-//use Omnipay\Helcim\Message\CaptureRequest;
-use Omnipay\Common\AbstractGateway;
-
 /**
  * Helcim Hosted Pages Class
  */
-class HostedPagesGateway extends AbstractGateway
+class HostedPagesGateway extends AbstractCommonGateway
 {
     public function getName()
     {
@@ -19,15 +14,12 @@ class HostedPagesGateway extends AbstractGateway
 
     public function getDefaultParameters()
     {
-        return array(
-            'merchantId' => '',
-            'gatewayToken' => '',
-            'formToken' => '',
-            'method' => 'GET',
-            'testMode' => false,
-            'developerMode' => false,
-            'shippingAmount' => 0,
-            'taxAmount' => 0,
+        // Merge the formToken with the common default values.
+        return array_merge(
+            parent::getDefaultParameters(),
+            array(
+                'formToken' => '',
+            )
         );
     }
 
