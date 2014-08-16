@@ -38,14 +38,14 @@ in the Helcim account.
 
 There is an API to get lists of transactions, so that can *probably* be used to check the validity of
 a result posted back to your site. This will involve some overlap between the Hosted Pages and the Direct
-modes of operation. *(Note: the API may not actually allow fetching of transactions by transaction ID, which
-would be a big let-down, and maybe a total blocker for being able to use the Hosted Pages securely.)*
+modes of operation. *(Note: the API may not actually allow fetching of transactions by transaction ID at the moment. I am assured this situation is being fixed.)*
 
 The fetching of transactions through the API does not include the transaction type, even though the
 transaction type is available on the transaction details in the admin pages. In theory, an end user could
 change the transactino type from `purchase` to `preAuth` without being detected by the interface,
 and unless there are administration processes in place to catch this, and `capture` an authorised payment,
-some payments could possibly be lost.
+some payments could possibly be lost. **UPDATE:** this is being corrected now. I'll update this
+document and code when the transaction type is available through the API.
 
 ### URLs
 
@@ -82,9 +82,12 @@ most likely a flag in the session.
 
 ### Currency Identification
 
-There appears to be nowhere to set the currency for an account or payment. The Hosted Pages forms
-just accept a number and return a number when paid. So "9.99" could be anything. Except that is not
-how things should work.
+The currency is set at the merchant level. If you want to accept payments in several currencies, such 
+as USD and CAD for North America, then you will need two merchant accounts.
+
+The amount that is returned in the API when fetching transaction details, is formatted for display
+with the currency symbol and possibly thousand-separators. All characters but digits and the decimal
+point (.) should be stipped out to get to the raw value.
 
 ### Authentication ID
 
@@ -113,6 +116,9 @@ This payment gateway is a bit of an odd-ball. The Hosted Pages are okay for acce
 taking payments that are reconciled manually by the recipient later. However, using the
 Hosted Pages as the payment gateway for an e-commerce shop is fraught with potential problems,
 which I am still trying to find workarounds for. Use with caution, in the meantime.
+
+The developers are taking some of the issues on-board and working on fixes, so I will keep
+this document updated as we go along.
 
 I have no comments on the Direct mode as I have not attempted to use that yet. The Direct mode
 would need your site to be PCI compliant and registered, which is a whole other headeache that
