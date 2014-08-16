@@ -54,6 +54,16 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->getParameter('gatewayToken');
     }
 
+    public function setFormToken($value)
+    {
+        return $this->setParameter('formToken', $value);
+    }
+
+    public function getFormToken()
+    {
+        return $this->getParameter('formToken');
+    }
+
     public function setShippingAmount($value)
     {
         return $this->setParameter('shippingAmount', $value);
@@ -100,12 +110,31 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('method', $method);
     }
 
-    protected function getBaseData()
+    /**
+     * The Direct base data includes the (secret) Gateway token.
+     */
+
+    protected function getDirectBaseData()
     {
         $data = array();
 
         $data['merchantId'] = $this->getMerchantId();
         $data['token'] = $this->getGatewayToken();
+        $data['type'] = $this->type;
+
+        return $data;
+    }
+
+    /**
+     * The Hosted Page base data includes the (public) Form token.
+     */
+
+    protected function getHostedPageBaseData()
+    {
+        $data = array();
+
+        $data['merchantId'] = $this->getMerchantId();
+        $data['token'] = $this->getFormToken();
         $data['type'] = $this->type;
 
         return $data;

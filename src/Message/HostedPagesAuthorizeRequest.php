@@ -11,7 +11,9 @@ class HostedPagesAuthorizeRequest extends AbstractRequest
 
     public function getData()
     {
-        $data = $this->getBaseData();
+        // Get the base data for the Hosted Page.
+
+        $data = $this->getHostedPageBaseData();
 
         $this->validate('amount');
 
@@ -31,6 +33,7 @@ class HostedPagesAuthorizeRequest extends AbstractRequest
         $data = array_merge($data, $this->getBillingData());
 
         // Waiting for https://github.com/omnipay/common/issues/11 fix.
+
         $data = array_merge($data, $this->getCartData());
 
         return $data;

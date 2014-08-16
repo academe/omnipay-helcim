@@ -22,6 +22,7 @@ class HostedPagesGateway extends AbstractGateway
         return array(
             'merchantId' => '',
             'gatewayToken' => '',
+            'formToken' => '',
             'method' => 'GET',
             'testMode' => false,
             'developerMode' => false,
@@ -49,6 +50,8 @@ class HostedPagesGateway extends AbstractGateway
 
     /**
      * The Gateway Token is always needed.
+     * It provides access to the backend, and is always kept secret
+     * from end users.
      */
     public function setGatewayToken($gateway_token)
     {
@@ -60,6 +63,25 @@ class HostedPagesGateway extends AbstractGateway
         return $this->getParameter('gatewayToken');
     }
 
+    /**
+     * The Form Token is always needed.
+     * It identifies which form is going to be presented to the user.
+     * The form ID will be public..
+     */
+    public function setFormToken($gateway_token)
+    {
+        return $this->setParameter('formToken', $gateway_token);
+    }
+
+    public function getFormToken()
+    {
+        return $this->getParameter('formToken');
+    }
+
+    /**
+     * The shipping and tax amounts are displayed on the payment form.
+     * They are not validated by the gateway, as currently understood.
+     */
     public function setShippingAmount($value)
     {
         return $this->setParameter('shippingAmount', $value);
