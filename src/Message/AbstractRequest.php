@@ -13,16 +13,24 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     protected $endpointDevDomain = 'gatewaytest.helcim.com';
     protected $endpointProdDomain = 'gateway.helcim.com';
 
-    protected $endpointTemplate = 'https://{domain}/hosted/';
+    protected $endpointTemplateHostedPages = 'https://{domain}/hosted/';
+    protected $endpointTemplateDirect = 'https://{domain}/api/';
 
     /**
      * The transaction type.
      * Values are: "purchase", "preauth", "capture", "refund" or "void".
-     * Also "recurring", with a start data and special handling of the amount.
-     * Some of these will presumably not be available to the hosted pages approach, and only
-     * be useful in the server-based approach. However, the documentation leaves this unclear.
+     * Also "recurring", with a start date and special handling of the amount.
+     * The Hosted Pages mode only supports preauth and purchase.
      */
     protected $type = 'purchase';
+
+    /**
+     * The endpoint URL depends on whether the mode is Direct or Hosted Pages.
+     * TODO: at this point it may be worth adding another layer of AbstractRequest to
+     * differentiate between the two (at the moment) modes. This would reduct conditional
+     * checking and duplication on the mode property across multiple Request classes.
+     */
+    protected $mode = 'direct';
 
     public function setDeveloperMode($value)
     {
@@ -110,17 +118,33 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('method', $method);
     }
 
+    protected function getBaseData()
+    {
+        $data = array();
+
+        $data['merchantId'] = $this->getMerchantId();
+        $data['type'] = $this->type;
+
+        // The test parameter will indicate this is a test transaction. This flag can be
+        // used in the production environment. It differs from enabling "developer mode",
+        // which switches to an alternative developer environment.
+
+        if ($this->getTestMode()) {
+            $data['test'] = '1';
+        }
+
+        return $data;
+    }
+
     /**
      * The Direct base data includes the (secret) Gateway token.
      */
 
     protected function getDirectBaseData()
     {
-        $data = array();
+        $data = $this->getBaseData();
 
-        $data['merchantId'] = $this->getMerchantId();
         $data['token'] = $this->getGatewayToken();
-        $data['type'] = $this->type;
 
         return $data;
     }
@@ -129,13 +153,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * The Hosted Page base data includes the (public) Form token.
      */
 
-    protected function getHostedPageBaseData()
+    protected function getHostedPagesBaseData()
     {
-        $data = array();
+        $data = $this->getBaseData();
 
-        $data['merchantId'] = $this->getMerchantId();
         $data['token'] = $this->getFormToken();
-        $data['type'] = $this->type;
 
         return $data;
     }
@@ -367,7 +389,20 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     {
         $domain = $this->getDeveloperMode() ? $this->endpointDevDomain : $this->endpointProdDomain;
 
-        $url = str_replace('{domain}', $domain, $this->endpointTemplate);
+        switch($this->mode) {
+            case 'direct':
+                $template = $this->endpointTemplateDirect;
+                break;
+
+            case 'hostedpages':
+                $template = $this->endpointTemplateHostedPages;
+                break;
+
+            default:
+                throw new InvalidRequestException('Invalid mode.');
+        }
+
+        $url = str_replace('{domain}', $domain, $template);
 
         if ($this->getMethod() == 'GET') {
             // For the GET method, all data needs to be added to the URL.

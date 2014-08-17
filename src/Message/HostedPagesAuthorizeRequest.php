@@ -8,12 +8,13 @@ namespace Omnipay\Helcim\Message;
 class HostedPagesAuthorizeRequest extends AbstractRequest
 {
     protected $type = 'preauth';
+    protected $mode = 'hostedpages';
 
     public function getData()
     {
         // Get the base data for the Hosted Page.
 
-        $data = $this->getHostedPageBaseData();
+        $data = $this->getHostedPagesBaseData();
 
         $this->validate('amount');
 

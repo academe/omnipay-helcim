@@ -5,11 +5,11 @@ namespace Omnipay\Helcim;
 /**
  * Helcim Server (direct) driver for Omnipay
  */
-class ServerGateway extends AbstractCommonGateway
+class DirectGateway extends AbstractCommonGateway
 {
     public function getName()
     {
-        return 'Helcim Server';
+        return 'Helcim Direct';
     }
 
     /**
