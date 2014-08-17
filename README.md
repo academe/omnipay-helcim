@@ -23,7 +23,9 @@ the form, such as customer address, names, basket detaill, the POST is more appr
 There are two modes of operation:
 
 * **Direct mode**, where credit card details are taken on your site, and no customer leaves your site.
-  You will need to be PCI-registered to use this mode.
+  You will need to be PCI-registered to use this mode. Note that Helcim do not call this mode "Direct".
+  This is their unnamed original API mode. It has been named "Direct" here to distininguish it from the
+  later Hosted Pages mode.
 * **Hosted Page mode**, where the user is sent to one of a number of pre-defined forms on the Helcim site.
   You do not need to bve PCI-registered for this mode of operation, but there is a risk of details
   being passed between your site and Helcim being manipulated by the user.
