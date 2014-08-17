@@ -1,8 +1,11 @@
-# Omnipay: Helcim Interface
+# Omnipay: Helcim Gateway
 
 **Helcim driver for the Omnipay PHP payment processing library**
 
 Work in progress. First thing to get working is the Helcim Hosted Pages for purchases.
+
+This package is a driver for Omnipay. Being a *driver* rather than an *interface*, it does not 
+interface directly with the Helcim service, but rather tells Omnipay how to interact.
 
 This package provides the namespace `Omnipay/Helcim`
 
@@ -22,11 +25,11 @@ the form, such as customer address, names, basket detaill, the POST is more appr
 
 There are two modes of operation:
 
-* **Direct mode**, where credit card details are taken on your site, and no customer leaves your site.
+* **Direct mode** (`Helcim_Direct`), where credit card details are taken on your site, and no customer leaves your site.
   You will need to be PCI-registered to use this mode. Note that Helcim do not call this mode "Direct".
   This is their unnamed original API mode. It has been named "Direct" here to distininguish it from the
   later Hosted Pages mode.
-* **Hosted Page mode**, where the user is sent to one of a number of pre-defined forms on the Helcim site.
+* **Hosted Page mode** (`Helcim_HostedPages`), where the user is sent to one of a number of pre-defined forms on the Helcim site.
   You do not need to bve PCI-registered for this mode of operation, but there is a risk of details
   being passed between your site and Helcim being manipulated by the user.
   This is not ideal, and reconciliation therefore plays an important part in using this mode.
