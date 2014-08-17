@@ -14,9 +14,9 @@ but starting just with the Hosted Pages mode for use on a current project (the i
 
 ## Notes on How Helcim Works
 
-Following are some notes on how the Helcim gateway works. They help to put this gateway interfave into context.
+Following are some notes on how the Helcim gateway works. They help to put this gateway driver into context.
 
-Service home page: https://www.helcim.com/
+The Helcim service home page: https://www.helcim.com/
 
 The Helcim site accepts either GET or POST data; they are completely interchangeable.
 This gateway interface leaves the choice of which to use up to you. For a simple "donate" button or
