@@ -7,7 +7,7 @@ namespace Omnipay\Helcim\Message;
  */
 class HostedPagesAuthorizeRequest extends AbstractRequest
 {
-    protected $type = 'preauth';
+    protected $action = 'preauth';
     protected $mode = 'hostedpages';
 
     public function getData()

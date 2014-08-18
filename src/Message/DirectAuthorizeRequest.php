@@ -7,6 +7,8 @@ namespace Omnipay\Helcim\Message;
 */
 class DirectAuthorizeRequest extends AbstractRequest
 {
+    protected $action = 'preauth';
+
     /**
      * Collect the data together to sent to the Gateway.
      */

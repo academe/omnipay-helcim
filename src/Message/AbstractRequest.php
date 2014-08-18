@@ -17,14 +17,14 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     protected $endpointTemplateDirect = 'https://{domain}/api/';
 
     /**
-     * The transaction type.
+     * The transaction action (type).
      * Values are: "purchase", "preauth", "capture", "refund" or "void".
      * Also "recurring", with a start date and special handling of the amount.
      * The Hosted Pages mode only supports preauth and purchase.
      *
      * TODO: should this be implemented as getService() instead?
      */
-    protected $type = 'purchase';
+    protected $action = 'purchase';
 
     /**
      * The endpoint URL depends on whether the mode is Direct or Hosted Pages.
@@ -125,7 +125,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $data = array();
 
         $data['merchantId'] = $this->getMerchantId();
-        $data['type'] = $this->type;
+        $data['type'] = $this->action;
 
         // The test parameter will indicate this is a test transaction. This flag can be
         // used in the production environment. It differs from enabling "developer mode",

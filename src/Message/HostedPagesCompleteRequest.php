@@ -10,7 +10,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
 */
 class HostedPagesCompleteRequest extends AbstractRequest
 {
-    protected $type = 'preauth';
+    protected $action = 'preauth';
     protected $mode = 'hostedpages';
 
     /**
