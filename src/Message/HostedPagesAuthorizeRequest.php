@@ -40,6 +40,9 @@ class HostedPagesAuthorizeRequest extends AbstractRequest
         return $data;
     }
 
+    /**
+     * The response to "sending" the data is a redirect object.
+     */
     public function sendData($data)
     {
         return $this->response = new HostedPagesResponse($this, $data, $this->getEndpoint(), $this->getMethod());

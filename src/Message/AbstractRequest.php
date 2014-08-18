@@ -21,6 +21,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * Values are: "purchase", "preauth", "capture", "refund" or "void".
      * Also "recurring", with a start date and special handling of the amount.
      * The Hosted Pages mode only supports preauth and purchase.
+     *
+     * TODO: should this be implemented as getService() instead?
      */
     protected $type = 'purchase';
 
