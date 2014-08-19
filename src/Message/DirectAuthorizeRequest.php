@@ -31,7 +31,7 @@ class DirectAuthorizeRequest extends AbstractRequest
             ->post($this->getEndpoint(), null, $data)
             ->send();
 
-        return new DirectAuthorizeResponse($this, $httpResponse->getBody());
+        return new DirectAuthorizeResponse($this, $httpResponse->xml());
     }
 }
 

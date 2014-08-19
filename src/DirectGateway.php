@@ -16,15 +16,49 @@ class DirectGateway extends AbstractCommonGateway
     const CVV2_INDICATOR_NOT_PRESENT = '3';
     const CVV2_INDICATOR_IGNORE = '4';
 
+    // CHECKME: the CCV2 response codes should be (ought to be) in core Omnipay.
+    // Similar for AVS responses.
+
+    // M - Match.
     const CVV2_RESPONSE_M = 'M';
+    // N - No match.
     const CVV2_RESPONSE_N = 'N';
+    // P - Not processed.
     const CVV2_RESPONSE_P = 'P';
+    // S - Issuer indicates CCV2 should be present, but merchant has not presetnted it.
     const CVV2_RESPONSE_S = 'S';
+    // Issuer not certified.
     const CVV2_RESPONSE_U = 'U';
 
     public function getName()
     {
         return 'Helcim Direct';
+    }
+
+    /**
+     * The transaction date is only used when fetching a transaction from the API.
+     */
+    public function setTransactionDate($value)
+    {
+        return $this->setParameter('transactionDate', $value);
+    }
+
+    public function getTransactionDate()
+    {
+        return $this->getParameter('transactionDate');
+    }
+
+    /**
+     * The order ID is only used when fetching a transaction from the API.
+     */
+    public function setOrderId($value)
+    {
+        return $this->setParameter('orderId', $value);
+    }
+
+    public function getOrderId()
+    {
+        return $this->getParameter('orderId');
     }
 
     /**
@@ -57,5 +91,13 @@ class DirectGateway extends AbstractCommonGateway
     public function completeAuthorize(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Helcim\Message\DirectCompleteRequest', $parameters);
+    }
+
+    /**
+     * To search through existing transactions.
+     */
+    public function fetchTransaction(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Helcim\Message\DirectFetchTransactionRequest', $parameters);
     }
 }

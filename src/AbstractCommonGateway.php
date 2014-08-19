@@ -15,9 +15,9 @@ abstract class AbstractCommonGateway extends AbstractGateway
         return array(
             'merchantId' => '',
             'gatewayToken' => '',
-            'method' => 'GET',
-            'testMode' => false,
-            'developerMode' => false,
+            'method' => array('GET', 'POST'),
+            'testMode' => array(0, 1),
+            'developerMode' => array(0, 1),
             'shippingAmount' => 0,
             'taxAmount' => 0,
         );
@@ -53,6 +53,33 @@ abstract class AbstractCommonGateway extends AbstractGateway
     public function getGatewayToken()
     {
         return $this->getParameter('gatewayToken');
+    }
+
+    /**
+     * The developer mode affects the endpoint URL.
+     */
+    public function setDeveloperMode($value)
+    {
+        return $this->setParameter('developerMode', $value);
+    }
+
+    public function getDeveloperMode()
+    {
+        return $this->getParameter('developerMode');
+    }
+
+    /**
+     * The method used to redirect, i.e. to send the user to the payment form.
+     * GET or POST.
+     */
+    public function setMethod($method)
+    {
+        return $this->setParameter('method', $method);
+    }
+
+    public function getMethod()
+    {
+        return $this->getParameter('method');
     }
 
 }

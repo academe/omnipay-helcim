@@ -51,6 +51,9 @@ class HostedPagesCompleteRequest extends AbstractRequest
         //    throw new InvalidRequestException('Incorrect hash');
         //}
 
+        $order_id = 'foo';
+        $this->getTransaction($order_id);
+
         // Return all data POSTed by the user, for now.
         return $this->httpRequest->request->all();
     }

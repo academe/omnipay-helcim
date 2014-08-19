@@ -73,20 +73,6 @@ class HostedPagesGateway extends AbstractCommonGateway
     }
 
     /**
-     * The method used to redirect.
-     * GET or POST.
-     */
-    public function setMethod($method)
-    {
-        return $this->setParameter('method', $method);
-    }
-
-    public function getMethod()
-    {
-        return $this->getParameter('method');
-    }
-
-    /**
      * Entry points to the different types of request.
      */
 
@@ -120,19 +106,6 @@ class HostedPagesGateway extends AbstractCommonGateway
     public function completeAuthorize(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Helcim\Message\HostedPagesCompleteRequest', $parameters);
-    }
-
-    /**
-     * The developer mode affects the endpoint URL.
-     */
-    public function setDeveloperMode($value)
-    {
-        return $this->setParameter('developerMode', $value);
-    }
-
-    public function getDeveloperMode()
-    {
-        return $this->getParameter('developerMode');
     }
 }
 
