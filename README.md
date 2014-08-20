@@ -41,16 +41,21 @@ With this in mind, you need to be careful not to trust the results of a successf
 some kind of reconciliation first. i.e. don't ship the goods until you have checked teh transactions
 in the Helcim account.
 
-There is an API to get lists of transactions, so that can *probably* be used to check the validity of
+There is an API to get lists of transactions, so that can be used to check the validity of
 a result posted back to your site. This will involve some overlap between the Hosted Pages and the Direct
-modes of operation. *(Note: the API may not actually allow fetching of transactions by transaction ID at the moment. I am assured this situation is being fixed.)*
+modes of operation. Searching for a transaction by key phrase also looks in the order ID and transaction ID
+fields. Since either of these IDs could concievably appear in any other part of any transaction, the
+gateway driver needs to be ready to accept more than one transaction and to sift through them to find
+the one that matches the order ID or transaction ID exactly. This is certainly an edge-case, but needs to
+be considered in financial systems, as edge cases are where vulnerabilities lie.
 
-The fetching of transactions through the API does not include the transaction type, even though the
+~~The fetching of transactions through the API does not include the transaction type, even though the
 transaction type is available on the transaction details in the admin pages. In theory, an end user could
-change the transactino type from `purchase` to `preAuth` without being detected by the interface,
+change the transaction type from `purchase` to `preAuth` without being detected by the interface,
 and unless there are administration processes in place to catch this, and `capture` an authorised payment,
-some payments could possibly be lost. **UPDATE:** this is being corrected now. I'll update this
-document and code when the transaction type is available through the API.
+some payments could possibly be lost.~~ **UPDATE:** this is being corrected now. I'll update this
+document and code when the transaction type is available through the API. **UPDATE** From August 2014 this
+is now fixed - a fetched transaction will include the transaction type (or *action* in omnipay lingo).
 
 ### URLs
 
