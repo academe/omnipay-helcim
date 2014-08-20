@@ -80,8 +80,8 @@ the flow for the user more smoothly and more intuitively.
 
 It appears at the moment that the Helcim Hosted Page payment form will never return a "declined" or error
 status to your site. The user will remain on the payment page until they either successfully get a card approved,
-or fail a number of times are are sent to the "cancel" URL (the site home page, set up for the account
-- NOT specific for each form).
+or fail a number of times are are sent to the "cancel" URL (the site home page, set up for the account and
+is NOT specific for each form).
 
 ### Hosted Pages Actions/Types
 
