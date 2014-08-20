@@ -38,16 +38,17 @@ In the current incarnation, there is no back-channel when using the Hosted Page 
 no hashes generated (using a secret known only to your site and Helcim) that can be be use to check
 whether the data passed between the sites, through your browser, has been changed en-route.
 With this in mind, you need to be careful not to trust the results of a successful transaction without
-some kind of reconciliation first. i.e. don't ship the goods until you have checked teh transactions
-in the Helcim account.
+some kind of reconciliation first. i.e. don't ship the goods until you have checked the transactions
+in the Helcim account. There *is* actually a back-channel that your site can use to check the details of
+a claimed transaction, and that is currently being built into this driver. More details on this below.
 
 There is an API to get lists of transactions, so that can be used to check the validity of
 a result posted back to your site. This will involve some overlap between the Hosted Pages and the Direct
 modes of operation. Searching for a transaction by key phrase also looks in the order ID and transaction ID
 fields. Since either of these IDs could concievably appear in any other part of any transaction, the
-gateway driver needs to be ready to accept more than one transaction and to sift through them to find
+gateway driver needs to be ready to accept more than one matching transaction and to sift through them to find
 the one that matches the order ID or transaction ID exactly. This is certainly an edge-case, but needs to
-be considered in financial systems, as edge cases are where vulnerabilities lie.
+be considered, as edge cases are where vulnerabilities can be exploited.
 
 ~~The fetching of transactions through the API does not include the transaction type, even though the
 transaction type is available on the transaction details in the admin pages. In theory, an end user could
