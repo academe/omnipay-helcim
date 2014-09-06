@@ -1,0 +1,70 @@
+
+# omnipay/helcim (Helcim-HostedPaged, success path)
+# Author: Jason Judge <jason@academe.co.uk>
+#
+# Version: very rough first draft for comment.
+# It kind of mixes up data flows and process calls
+# in the arcs, so be wary of that, until it is
+# refined.
+#
+# It is going to be helpful to list the important
+# data items in each flow. These items all have two
+# names - the gateway name, and the OmniPay abstracted
+# name. I'm not sure if those items should be listed
+# on the diagram, but they really should be close-by.
+
+msc {
+    # Options
+    hscale=2;
+    #wordwraparcs=1;
+
+    # Title
+    title: OmniPay-Helcim;
+    subtitle: Helcim-HostedPages (Purchase, success path);
+
+    # Entities
+    App [label="Application"],
+    OP [label="OmniPay"],
+    HD [label="Helcim Driver"],
+    HHP [label="Helcim HostedPages"];
+    HDG [label="Helcim Direct"];
+
+
+    # Process/Arcs
+    App -- App [label="Collect Personal Details"];
+
+    App..App: Initialisation
+    {
+        App -> OP [label="gateway::purchase()"];
+        OP -> HD [label="HostedPagesPurchaseRequest()"];
+        HD -> OP -> App [label="HostedPagesResponse()"];
+        App -> HHP [label="POST redirect"];
+
+        HHP -- HHP [label="Get Card Details"];
+        HHP -- HHP [label="Authenticate Card Details"];
+    };
+
+    App..App: Cart Processing
+    {
+        HHP -> App [label="POST redirect"];
+        App -> OP [label="gateway::completePurchase()"];
+        OP -> HD [label="HostedPagesCompleteRequest()"];
+        OP..HDG: Helcim Direct to Check the Transaction
+        {
+            HD -> OP [label="direct::fetchTransaction()"];
+            OP -> HD [label="DirectCompleteRequest()"];
+            HD -> HDG [label="GET transaction"];
+            HDG -> HD [label="Transaction details"];
+            HD -> HD [label="DirectCompleteResponse()"];
+            HD -- HD [label="Validate Transaction Details"];
+        };
+        HD -> OP -> App [label="HostedPagesCompleteResponse()"];
+        App -- App [label="Process Cart According to Result"];
+        App -- App [label="Notify User"];
+    };
+
+
+    #SP -> App [label="Order Complete"];
+    #App -- App [label="(alt2) Process Complete Basket Items"];
+    #App -- App [label="Clear Basket from Session"];
+}
