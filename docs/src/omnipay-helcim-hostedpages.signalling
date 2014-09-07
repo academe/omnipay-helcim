@@ -15,7 +15,7 @@
 
 msc {
     # Options
-    hscale=2;
+    hscale=auto;
     #wordwraparcs=1;
 
     # Title
@@ -39,6 +39,7 @@ msc {
         OP -> HD [label="HostedPagesPurchaseRequest()"];
         HD -> OP -> App [label="HostedPagesResponse()"];
         App -> HHP [label="POST redirect"];
+        comment: Each form will have a unique and\npublic token of its own.;
 
         HHP -- HHP [label="Get Card Details"];
         HHP -- HHP [label="Authenticate Card Details"];
@@ -49,16 +50,19 @@ msc {
         HHP -> App [label="POST redirect"];
         App -> OP [label="gateway::completePurchase()"];
         OP -> HD [label="HostedPagesCompleteRequest()"];
-        OP..HDG: Helcim Direct to Check the Transaction
+        OP..HDG: Check the Transaction
         {
             HD -> OP [label="direct::fetchTransaction()"];
-            OP -> HD [label="DirectCompleteRequest()"];
+            OP -> HD [label="DirectFetchTransactionRequest()"];
             HD -> HDG [label="GET transaction"];
+            comment: A secret token is used to access\nthe direct back-end services.;
             HDG -> HD [label="Transaction details"];
-            HD -> HD [label="DirectCompleteResponse()"];
+            HD -> HD [label="DirectFetchTransactionResponse()"];
             HD -- HD [label="Validate Transaction Details"];
         };
+        comment: The transaction can potentially be\nmanipulated by the user during the POSTs\nin both directions, so it is\nnecessary to check the transaction\nlogged on Helcim via the Helcim Direct API.;
         HD -> OP -> App [label="HostedPagesCompleteResponse()"];
+        comment: It does seem that ONLY a successful payment\nor authorisation will ever return by this path.;
         App -- App [label="Process Cart According to Result"];
         App -- App [label="Notify User"];
     };
