@@ -19,6 +19,9 @@ class DirectFetchTransactionRequest extends AbstractRequest
 
     /**
      * Collect the data togethee that will be sent to the API.
+     * FIXME: we can now include the orderId or the transactionId in the search,
+     * and neither of those are date-limted. We still need to consider that more
+     * than one match may be returned.
      */
     public function getData()
     {
@@ -71,6 +74,9 @@ class DirectFetchTransactionRequest extends AbstractRequest
         // It is not clear what we are supposed to return, or how it gets converted into
         // a more standard format for the application. Something will need to pull all the
         // XML object data out and put it into something else. But what and where...?
+        // Other things to consider are special handling of some fields, such as the
+        // conversion of the amount from a formatted string - with currency symbol and possibly
+        // thousands separator charactrs - to a numeric value.
 
         return new DirectFetchTransactionResponse($this, $transaction);
     }
