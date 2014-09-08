@@ -22,6 +22,12 @@ fetch the final transaction, which *can* be trusted.
 Helcim Hosted Pages supports payment and authoriziation. To capture any authorized sums,
 the Direct API is used.
 
+The data and user flow is shown on the network flow chart here:
+
+https://github.com/academe/omnipay-helcim/blob/master/docs/omnipay-helcim-hostedpages.pdf?raw=true
+
+Some additional notes on this flow will be added in time.
+
 Initialization
 --------------
 
