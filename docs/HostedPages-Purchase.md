@@ -106,8 +106,8 @@ The Approval URL should handle the result as in the example below:
         // The transaction details are available for logging and capturing (perhaps
         // to create a new account). This includes the authorization code and the
         // amount that was paid, plus all personal details and a card summary.
-        $detailsXML = $response->getTransaction();
-        $detailsArray = $response->getTransactionArray();
+        $transaction_XML = $response->getTransaction();
+        $transaction_Array = $response->getTransactionArray();
     } else {
         echo $response->getErrorMessage();
     }
