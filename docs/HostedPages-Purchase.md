@@ -27,6 +27,7 @@ Initialization
 
 The following sample will initialize a request for payment using the minimum of details:
 
+```php
     // Get the driver.
     $gateway = Omnipay::create('Helcim_HostedPages');
     
@@ -69,5 +70,6 @@ The following sample will initialize a request for payment using the minimum of 
         // Payment failed: display the error message.
         echo $response->getMessage();
     }
+```
 
 
