@@ -29,32 +29,5 @@ class HostedPagesCompleteResponse extends AbstractResponse
     {
         return isset($this->data['transactionId']) ? $this->data['transactionId'] : null;
     }
-
-    public function getMessage()
-    {
-        return isset($this->data['responseMessage']) ? $this->data['responseMessage'] : null;
-
-        /*
-            // Example data from $this->data (some additional, optional variables too).
-            Array
-            (
-                [orderId] => 1407770695276
-                [response] => 1
-                [responseMessage] => APPROVED
-                [date] => 2014-08-11
-                [time] => 09:24:55
-                [cardholderName] => 
-                [amount] => 44.99
-                [cardNumber] => 4242****4242
-                [cardToken] => 53e8e048d04a9460301300
-                [transactionId] => 112394664
-                [expiryDate] => 0116
-                [cardType] => Visa
-                [avsResponse] => N
-                [cvvResponse] => M
-                [approvalCode] => 
-            )
-        */
-    }
 }
 

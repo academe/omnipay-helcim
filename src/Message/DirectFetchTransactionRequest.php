@@ -30,7 +30,7 @@ class DirectFetchTransactionRequest extends AbstractRequest
         $data = $this->getDirectBaseData();
 
         // TODO: check various fields for a unique ID and use that.
-        $data['search'] = $this->getOrderId();
+        $data['search'] = $this->getTransactionId();
 
         return $data;
     }
@@ -41,6 +41,7 @@ class DirectFetchTransactionRequest extends AbstractRequest
      * Send the data to the remote API service.
      * We need to go through the recieved transactions and find the one with
      * the orderId or transactionId that we want to get.
+     * FIXME: POST is not working.
      */
     public function sendData($data)
     {
@@ -48,11 +49,13 @@ class DirectFetchTransactionRequest extends AbstractRequest
         $endpoint = $this->getEndpoint();
 
         if ($method == 'GET') {
+            // Send a GET request.
             // The endpoint will already have GET parameters added.
             $httpResponse = $this->httpClient->get($endpoint)->send();
         } else {
             // Send a POST request.
-            // TODO
+            // The endpoint for a POST will not have GET parameters on the URL.
+            $httpResponse = $this->httpClient->post($endpoint, ['body' => $data])->send();
         }
 
         // Return a SimpleXMLElement containing a list of transactions

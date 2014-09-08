@@ -463,7 +463,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * TODO: pass in the timestamp of the transaction, so this method knows which
      * day to start looking.
      */
-    public function getTransaction($order_id)
+    public function DISABLED_getTransaction($order_id)
     {
         // Open a new gateway to do this request, cloning the main identification parameters.
         $gateway = Omnipay::create('Helcim_Direct');

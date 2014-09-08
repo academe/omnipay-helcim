@@ -72,6 +72,16 @@ class HostedPagesGateway extends AbstractCommonGateway
         return $this->getParameter('customerId');
     }
 
+    public function setTransactionId($value)
+    {
+        return $this->setParameter('transactionId', $value);
+    }
+
+    public function getTransactionId()
+    {
+        return $this->getParameter('transactionId');
+    }
+
     /**
      * Entry points to the different types of request.
      */
@@ -89,7 +99,7 @@ class HostedPagesGateway extends AbstractCommonGateway
     */
     public function completePurchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Helcim\Message\HostedPagesCompleteRequest', $parameters);
+        return $this->createRequest('\Omnipay\Helcim\Message\HostedPagesCompletePurchaseRequest', $parameters);
     }
 
     /**
@@ -105,7 +115,7 @@ class HostedPagesGateway extends AbstractCommonGateway
     */
     public function completeAuthorize(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Helcim\Message\HostedPagesCompleteRequest', $parameters);
+        return $this->createRequest('\Omnipay\Helcim\Message\HostedPagesCompleteAuthorizeRequest', $parameters);
     }
 }
 

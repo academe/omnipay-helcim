@@ -48,8 +48,19 @@ class DirectGateway extends AbstractCommonGateway
         return $this->getParameter('transactionDate');
     }
 
+    public function setTransactionId($value)
+    {
+        return $this->setParameter('transactionId', $value);
+    }
+
+    public function getTransactionId()
+    {
+        return $this->getParameter('transactionId');
+    }
+
     /**
      * The order ID is only used when fetching a transaction from the API.
+     * TODO: Remove - we are abstracted to transactionId.
      */
     public function setOrderId($value)
     {

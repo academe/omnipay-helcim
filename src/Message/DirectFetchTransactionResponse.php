@@ -29,6 +29,8 @@ class DirectFetchTransactionResponse extends AbstractResponse implements Redirec
      * We will be given an array of a single XML transaction.
      * We should have exectly one; this service is used to fetch
      * just one transaction for validation.
+     * FIXME: there could be more than one match - just go through them
+     * to find the one with the exact transaction ID.
      */
     public function __construct($request, \SimpleXMLElement $data)
     {
@@ -99,6 +101,27 @@ class DirectFetchTransactionResponse extends AbstractResponse implements Redirec
     public function getTransaction()
     {
         return $this->transaction;
+    }
+
+    /**
+     * Get the transaction as an array of scalars.
+     * The structure is flat, so don't need to worry about recursing,
+     * tough a more generic solution may be needed for other direct services.
+     * The array format will be easier to handle for storage.
+     */
+    public function getTransactionArray()
+    {
+        if (is_a($this->transaction, '\SimpleXMLElement')) {
+            $array = array();
+
+            foreach($this->transaction as $element) {
+                $array[$element->getName()] = (string)$element;
+            }
+
+            return $array;
+        } else {
+            return null;
+        }
     }
 
     public function getErrorMessage()
