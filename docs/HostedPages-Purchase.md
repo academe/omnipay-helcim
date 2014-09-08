@@ -56,6 +56,8 @@ The following sample will initialize a request for payment using the minimum of 
         'customerId' => 'Mandatory customer ID',
     ])->send();
     
+    // Alternatively, $gateway->autyhorize(...) for just authorization.
+    
     // Standard OmniPay handling.
     // So long as mandatory details look okay, then a redirect will be
     // the required action.
@@ -72,4 +74,41 @@ The following sample will initialize a request for payment using the minimum of 
     }
 ```
 
+Approval Handling
+-----------------
 
+Helcim will POST a successful payment authorization to the Approval URL set up in the form.
+The Approval URL should handle the result as in the example below:
+
+```php
+    // Set up the gateway.
+    $gateway = Omnipay::create('Helcim_HostedPages');
+    
+    // Set credentials.
+    // The Form Token is not needed for this stage.
+    $gateway->setMerchantId('...');
+    $gateway->setGatewayToken('...');
+    
+    // Get your transaction ID saved in the session before the redirect, and
+    // give it to the driver.
+    $gateway->setTransactionId($your_transaction_id);
+    
+    // Complete the purchase with OmniPay.
+    // It is important to use the right complete method.
+    $response = $gateway->completePurchase()->send();
+    // or
+    $response = $gateway->completeAuthorize()->send();
+    
+    // Check the result.
+    if ($response->isSuccessful()) {
+        echo "Success!";
+        // Don't forget to process the cart or basket to complete the transaction.
+        // The transaction details are available for logging and capturing (perhaps
+        // to create a new account). This includes the authorization code and the
+        // amount that was paid, plus all personal details and a card summary.
+        $detailsXML = $response->getTransaction();
+        $detailsArray = $response->getTransactionArray();
+    } else {
+        echo $response->getErrorMessage();
+    }
+```
