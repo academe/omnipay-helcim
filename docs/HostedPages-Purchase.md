@@ -40,6 +40,7 @@ The following sample will initialize a request for payment using the minimum of 
     
     // Generate your transaction ID.
     // Must be unique and not guessable, unlike this example.
+    // Save this transaction ID in the session.
     $transactionId = date('Y-m-d_H-i-s');
     
     // Optional personal details where known.
@@ -95,6 +96,8 @@ The Approval URL should handle the result as in the example below:
     
     // Complete the purchase with OmniPay.
     // It is important to use the right complete method.
+    // An exception will be raised if there is any sign of the POST data
+    // being manipulated in transit.
     $response = $gateway->completePurchase()->send();
     // or
     $response = $gateway->completeAuthorize()->send();
@@ -106,6 +109,8 @@ The Approval URL should handle the result as in the example below:
         // The transaction details are available for logging and capturing (perhaps
         // to create a new account). This includes the authorization code and the
         // amount that was paid, plus all personal details and a card summary.
+        // You might want to check the amount at this point, because it could have
+        // been changed by the user in the Helcim form or en-route.
         $transaction_XML = $response->getTransaction();
         $transaction_Array = $response->getTransactionArray();
     } else {
