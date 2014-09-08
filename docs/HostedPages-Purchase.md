@@ -54,5 +54,20 @@ The following sample will initialize a request for payment using the minimum of 
         'description' => "Mandatory description",
         'customerId' => 'Mandatory customer ID',
     ])->send();
+    
+    // Standard OmniPay handling.
+    // So long as mandatory details look okay, then a redirect will be
+    // the required action.
+    if ($response->isSuccessful()) {
+        // Payment was successful. Nothing more to do.
+        // This will never happen for this driver.
+        print_r($response);
+    } elseif ($response->isRedirect()) {
+        // Redirect to offsite payment gateway.
+        $response->redirect();
+    } else {
+        // Payment failed: display the error message.
+        echo $response->getMessage();
+    }
 
 
