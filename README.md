@@ -29,3 +29,7 @@ don't work quite as expected, and to help get some eyes on any security issues w
 [Sample code for using this gateway](https://github.com/academe/omnipay-helcim/blob/master/docs/HostedPages-Purchase.md)
 is also in the docs section. It assumes you are familiar with the OmniPay environment,
 and tries to highlight any peculiarities of Helcim.
+
+## Tests
+
+No, none yet. If you can help, then please do.
