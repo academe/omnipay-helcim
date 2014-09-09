@@ -119,7 +119,10 @@ The Approval URL should handle the result as in the example below:
         // been changed by the user in the Helcim form or en-route.
         // These details are an array, with element names as detailed here:
         // https://www.helcim.com/support/?article=115
-        // with the exception that the 
+        // with the exception that the amount field will be stripped of any currency
+        // symbols and thousand's-separator characters.
+        // In addition, captured billing address and shipping address fields, and (possibly)
+        // custom fields will be included in the data.
         $transaction = $response->getData();
     } else {
         echo $response->getErrorMessage();
