@@ -36,6 +36,7 @@ msc {
     App..App: Initialisation
     {
         App -> OP [label="gateway::purchase()"];
+        App =>HD [label="hello"];
         OP -> HD [label="HostedPagesPurchaseRequest()"];
         HD -> OP -> App [label="HostedPagesResponse()"];
         App -> HHP [label="POST redirect"];
@@ -45,9 +46,10 @@ msc {
         HHP -- HHP [label="Authenticate Card Details"];
     };
 
-    App..App: Cart Processing
-    {
         HHP -> App [label="POST redirect"];
+
+    App..App: Security Check
+    {
         App -> OP [label="gateway::completePurchase()"];
         OP -> HD [label="HostedPagesCompleteRequest()"];
         OP..HDG: Check the Transaction
@@ -63,6 +65,10 @@ msc {
         comment: The transaction can potentially be\nmanipulated by the user during the POSTs\nin both directions, so it is\nnecessary to check the transaction\nlogged on Helcim via the Helcim Direct API.;
         HD -> OP -> App [label="HostedPagesCompleteResponse()"];
         comment: It does seem that ONLY a successful payment\nor authorisation will ever return by this path.;
+    }
+
+    App..App: Cart Processing
+    {
         App -- App [label="Process Cart According to Result"];
         App -- App [label="Notify User"];
     };
