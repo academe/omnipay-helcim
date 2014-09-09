@@ -142,6 +142,7 @@ class HostedPagesCompleteAuthorizeRequest extends AbstractRequest
 
     public function sendData($data)
     {
+        // $data here will be the transaction details, in array form.
         return $this->response = new HostedPagesCompleteResponse($this, $data);
     }
 }
