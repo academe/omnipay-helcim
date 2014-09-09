@@ -117,8 +117,10 @@ The Approval URL should handle the result as in the example below:
         // amount that was paid, plus all personal details and a card summary.
         // You might want to check the amount at this point, because it could have
         // been changed by the user in the Helcim form or en-route.
-        $transaction_XML = $response->getTransaction();
-        $transaction_Array = $response->getTransactionArray();
+        // These details are an array, with element names as detailed here:
+        // https://www.helcim.com/support/?article=115
+        // with the exception that the 
+        $transaction = $response->getData();
     } else {
         echo $response->getErrorMessage();
     }
