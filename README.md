@@ -21,6 +21,10 @@ This section has been moved to [How Helcim Works](https://github.com/academe/omn
 
 The [network flow chart can be found here](https://github.com/academe/omnipay-helcim/blob/master/docs/omnipay-helcim-hostedpages.pdf).
 It should help to put things into context.
+It is a first draft, and probably uses the wrong types of arrows for the data, process and user flows,
+so any experience in this type of chart would be most appreciated. Bear in mind, its aim is to
+help a developer to see what needs to be developed, where debug hooks can be put in when things
+don't work quite as expected, and to help get some eyes on any security issues with the payment flow.
 
 [Sample code for using this gateway](https://github.com/academe/omnipay-helcim/blob/master/docs/HostedPages-Purchase.md)
 is also in the docs section. It assumes you are familiar with the OmniPay environment,
