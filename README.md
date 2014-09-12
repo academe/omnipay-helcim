@@ -35,3 +35,18 @@ and tries to highlight any peculiarities of Helcim.
 ## Tests
 
 No, none yet. If you can help, then please do.
+
+## TODO
+
+Functionality still to be implemented:
+
+* [ ] Direct Address Verification
+* [ ] Direct Authorization
+* [ ] Direct Capture
+* [ ] Direct Purchase
+* [ ] Direct Refund
+* [ ] Direct Void
+* [ ] Direct Transaction Search
+* [x] Hosted Pages Authorize
+* [x] Hosted Pages Purchase
+
