@@ -4,7 +4,7 @@
 
 Work in progress. First thing to get working is the Helcim Hosted Pages for purchases.
 
-This package is a driver for [Omnipay](https://github.com/thephpleague/omnipay).
+This package is a driver for [Omnipay](https://github.com/thephpleague/omnipay) at August 2014.
 Being a *driver* rather than an *interface*, it does not 
 interface directly with the Helcim service, but instead sits between Omnipay and the Helcim gateway.
 
