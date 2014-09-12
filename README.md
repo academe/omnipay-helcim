@@ -1,6 +1,6 @@
 # Omnipay: Helcim Gateway
 
-**Helcim driver for the Omnipay PHP payment processing library**
+**Helcim driver for the Omnipay v2 PHP payment processing library**
 
 Work in progress. First thing to get working is the Helcim Hosted Pages for purchases.
 
