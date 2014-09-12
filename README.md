@@ -15,9 +15,11 @@ but starting just with the Hosted Pages mode for use on a current project (the i
 
 If you want to contribute to this driver, please get in touch.
 
-## Notes on How Helcim Works
+## Links to Documentation
 
-This section has been moved to [How Helcim Works](https://github.com/academe/omnipay-helcim/blob/master/docs/How-Helcim-Works.md)
+There are some notes on 
+[How Helcim Works](https://github.com/academe/omnipay-helcim/blob/master/docs/How-Helcim-Works.md)
+that are worth reading to understand some of the challenges that were presented.
 
 The [network flow chart can be found here](https://github.com/academe/omnipay-helcim/blob/master/docs/omnipay-helcim-hostedpages.pdf).
 It should help to put things into context.
