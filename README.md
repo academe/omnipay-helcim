@@ -47,6 +47,9 @@ Functionality still to be implemented:
 * [ ] Direct Refund
 * [ ] Direct Void
 * [ ] Direct Transaction Search
+* [ ] Transaction History
+  * [x] Fetch One
+  * [ ] Fetch List
 * [x] Hosted Pages Authorize
 * [x] Hosted Pages Purchase
 
