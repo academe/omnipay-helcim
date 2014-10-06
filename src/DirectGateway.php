@@ -48,6 +48,19 @@ class DirectGateway extends AbstractCommonGateway
         return $this->getParameter('transactionDate');
     }
 
+    /**
+     * Search string when retrieving transactions from the history.
+     */
+    public function setSearch($value)
+    {
+        return $this->setParameter('search', $value);
+    }
+
+    public function getSearch()
+    {
+        return $this->getParameter('search');
+    }
+
     public function setTransactionId($value)
     {
         return $this->setParameter('transactionId', $value);
@@ -105,10 +118,19 @@ class DirectGateway extends AbstractCommonGateway
     }
 
     /**
-     * To search through existing transactions.
+     * To fetch a single transaction.
+     * Fetch by transactionId or orderId. Both will be unique.
      */
     public function fetchTransaction(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Helcim\Message\DirectFetchTransactionRequest', $parameters);
+    }
+
+    /**
+     * To search through the past transaction history.
+     */
+    public function transactionHistory(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Helcim\Message\DirectTransactionHistoryRequest', $parameters);
     }
 }

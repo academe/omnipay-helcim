@@ -120,6 +120,19 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     * The transaction search string is used when fetching a transaction from the API.
+     */
+    public function setSearch($value)
+    {
+        return $this->setParameter('search', $value);
+    }
+
+    public function getSearch()
+    {
+        return $this->getParameter('search');
+    }
+
+    /**
      * The order ID is only used when fetching a transaction from the API.
      */
     public function setOrderId($value)
@@ -232,12 +245,14 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             // Billing details.
 
             // Single billing name, first and last joined.
-            if ($card->getBillingFirstName() || $card->getBillingLastName()) {
-                $data['billingName'] = trim($card->getBillingFirstName() . ' ' . $card->getBillingLastName());
+            if ($card->getBillingName()) {
+                $data['billingName'] = $card->getBillingName();
             }
 
             // Single address, 1 and 2 joined.
             // The hosted form provides a single line for this field, so we join with just a space.
+            // CHECKME: are either address parts multi-line? A method to convert to a single line
+            // would be great.
             if ($card->getBillingAddress1() || $card->getBillingAddress2()) {
                 $data['billingAddress'] = trim($card->getBillingAddress1() . ' ' . $card->getBillingAddress2());
             }
@@ -271,8 +286,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             // Shipping details.
 
             // Single billing name, first and last joined.
-            if ($card->getShippingFirstName() || $card->getShippingLastName()) {
-                $data['shippingName'] = trim($card->getShippingFirstName() . ' ' . $card->getShippingLastName());
+            if ($card->getShippingName()) {
+                $data['shippingName'] = getShippingName();
             }
 
             // Single address, 1 and 2 joined.

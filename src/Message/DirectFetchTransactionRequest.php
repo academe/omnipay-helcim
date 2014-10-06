@@ -2,65 +2,36 @@
 
 namespace Omnipay\Helcim\Message;
 
+use Omnipay\Common\Exception\InvalidRequestException;
+
 /**
- * Direct accesas to the search API.
- * This API allows a [very limited] search of the current transactions.
- * Search options are:
- * - date: all transactions on a given date.
- * - search string: all transactions that match a given search term.
- * The search string looks at billing details only. A request has been put in
- * to allow searching (i.e. selecting) by transaction ID or order ID.
+ * Direct accesas to the search API (aka Transaction History API) to fetch a
+ * a single transaction.
+ * This service may return multiple transactions if more than one happen to
+ * contain the matching transactionId or orderId, but will be filtered down
+ * to one when the result is processed.
  */
 
-class DirectFetchTransactionRequest extends AbstractRequest
+class DirectFetchTransactionRequest extends DirectTransactionHistoryRequest
 {
-    protected $action = 'search';
-    protected $mode = 'direct';
-
     /**
-     * Collect the data togethee that will be sent to the API.
-     * FIXME: we can now include the orderId or the transactionId in the search,
-     * and neither of those are date-limted. We still need to consider that more
-     * than one match may be returned.
+     * Collect the data together that will be sent to the API.
+     * We can now include the orderId or the transactionId in the search.
+     * If either unique ID is provided, then move it to the general search string
+     * and pass the remaining handling to the parent.
      */
     public function getData()
     {
-        // Get the base data.
-
-        $data = $this->getDirectBaseData();
-
-        // TODO: check various fields for a unique ID and use that.
-        $data['search'] = $this->getTransactionId();
-
-        return $data;
-    }
-
-    /**
-     * TODO: move this to AbstractRequest.
-     * Check first if all the direct transaction types expect an XML response.
-     * Send the data to the remote API service.
-     * We need to go through the recieved transactions and find the one with
-     * the orderId or transactionId that we want to get.
-     * FIXME: POST is not working.
-     */
-    public function sendData($data)
-    {
-        $method = $this->getMethod();
-        $endpoint = $this->getEndpoint();
-
-        if ($method == 'GET') {
-            // Send a GET request.
-            // The endpoint will already have GET parameters added.
-            $httpResponse = $this->httpClient->get($endpoint)->send();
+        if ($this->getOrderId()) {
+            $this->setSearch($this->getOrderId());
+        } elseif ($this->getTransactionId()) {
+            $this->setSearch($this->getTransactionId());
         } else {
-            // Send a POST request.
-            // The endpoint for a POST will not have GET parameters on the URL.
-            $httpResponse = $this->httpClient->post($endpoint, ['body' => $data])->send();
+            // No valid search parameter provided.
+            throw new InvalidRequestException('Missing orderId or transactionId; needed to fetch a single transaction.');
         }
 
-        // Return a SimpleXMLElement containing a list of transactions
-
-        return $this->createResponse($httpResponse->xml());
+        return parent::getData();
     }
 
     /**

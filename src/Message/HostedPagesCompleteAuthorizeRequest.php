@@ -79,17 +79,20 @@ class HostedPagesCompleteAuthorizeRequest extends AbstractRequest
 
         // Get the transaction for this transaction ID from the Direct API.
         // We start with the gateway and start a Direct request.
-        // I don't think there is a way to get to the gateway from here, so
-        // we create a new one.
+        // I don't think there is a way to get to the gateway from here (for
+        // cloning), so we create a new one.
 
         $gateway = Omnipay::create('Helcim_Direct');
 
         // Reuse our current credentials.
-        $gateway->setTransactionId($this->getTransactionId());
+        // This would not be necessary if we could clone the gateway.
         $gateway->setMerchantId($this->getMerchantId());
         $gateway->setGatewayToken($this->getGatewayToken());
         $gateway->setDeveloperMode($this->getDeveloperMode());
         $gateway->setTestMode($this->getTestMode());
+
+        // Set the transaction to fetch.
+        $gateway->setTransactionId($this->getTransactionId());
 
         // Need to be able to support POST too, but it's broken.
         $gateway->setMethod('get');
