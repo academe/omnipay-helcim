@@ -1,10 +1,10 @@
 # Omnipay: Helcim Gateway
 
-**Helcim driver for the Omnipay PHP payment processing library**
+**Helcim driver for the Omnipay v2 PHP payment processing library**
 
 Work in progress. First thing to get working is the Helcim Hosted Pages for purchases.
 
-This package is a driver for [Omnipay](https://github.com/thephpleague/omnipay).
+This package is a driver for [Omnipay](https://github.com/thephpleague/omnipay) at August 2014.
 Being a *driver* rather than an *interface*, it does not 
 interface directly with the Helcim service, but instead sits between Omnipay and the Helcim gateway.
 
@@ -15,9 +15,11 @@ but starting just with the Hosted Pages mode for use on a current project (the i
 
 If you want to contribute to this driver, please get in touch.
 
-## Notes on How Helcim Works
+## Links to Documentation
 
-This section has been moved to [How Helcim Works](https://github.com/academe/omnipay-helcim/blob/master/docs/How-Helcim-Works.md)
+There are some notes on 
+[How Helcim Works](https://github.com/academe/omnipay-helcim/blob/master/docs/How-Helcim-Works.md)
+that are worth reading to understand some of the challenges that were presented.
 
 The [network flow chart can be found here](https://github.com/academe/omnipay-helcim/blob/master/docs/omnipay-helcim-hostedpages.pdf).
 It should help to put things into context.
@@ -33,3 +35,21 @@ and tries to highlight any peculiarities of Helcim.
 ## Tests
 
 No, none yet. If you can help, then please do.
+
+## TODO
+
+Functionality still to be implemented:
+
+* [ ] Direct Address Verification
+* [ ] Direct Authorization
+* [ ] Direct Capture
+* [ ] Direct Purchase
+* [ ] Direct Refund
+* [ ] Direct Void
+* [ ] Direct Transaction Search
+* [ ] Transaction History
+  * [x] Fetch One
+  * [ ] Fetch List
+* [x] Hosted Pages Authorize
+* [x] Hosted Pages Purchase
+
