@@ -33,12 +33,12 @@ class DirectFetchTransactionResponse extends DirectTransactionHistoryResponse
             // Loop through the fetched transactions to find the one we
             // are looking for.
             $transaction_id = $request->getTransactionId();
-            $order_id = $request->getOrderId();
+            $transaction_reference = $request->getTransactionReference();
 
             foreach($this->transactions as $transaction) {
                 if (
-                    ($order_id && (string)$transaction->orderId === $order_id)
-                    || ($transaction_id && (string)$transaction->transactionId === $transaction_id)
+                    ($transaction_id && (string)$transaction->orderId === $transaction_id)
+                    || ($transaction_reference && (string)$transaction->transactionId === $transaction_reference)
                 ) {
                     // Found the matching transaction.
                     $this->transaction = $transaction;

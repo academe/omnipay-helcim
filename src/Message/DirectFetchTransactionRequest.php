@@ -22,13 +22,13 @@ class DirectFetchTransactionRequest extends DirectTransactionHistoryRequest
      */
     public function getData()
     {
-        if ($this->getOrderId()) {
-            $this->setSearch($this->getOrderId());
-        } elseif ($this->getTransactionId()) {
+        if ($this->getTransactionId()) {
             $this->setSearch($this->getTransactionId());
+        } elseif ($this->getTransactionReference()) {
+            $this->setSearch($this->getTransactionReference());
         } else {
             // No valid search parameter provided.
-            throw new InvalidRequestException('Missing orderId or transactionId; needed to fetch a single transaction.');
+            throw new InvalidRequestException('Missing transactionId or transactionReference; needed to fetch a single transaction.');
         }
 
         return parent::getData();

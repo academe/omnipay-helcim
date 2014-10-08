@@ -3,7 +3,7 @@
 namespace Omnipay\Helcim\Message;
 
 /**
- * Authorize.Net SIM Authorize Request
+ * Helcim Hosted Pages Authorize Request
  */
 class HostedPagesAuthorizeRequest extends AbstractRequest
 {
@@ -45,7 +45,15 @@ class HostedPagesAuthorizeRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        return $this->response = new HostedPagesResponse($this, $data, $this->getEndpoint(), $this->getMethod());
+        return $this->response = $this->createResponse($data, $this->getEndpoint(), $this->getMethod());
+    }
+
+    /**
+     * Create the response object.
+     */
+    public function createResponse($data, $endpoint, $method)
+    {
+        return new HostedPagesResponse($this, $data, $endpoint, $method);
     }
 }
 

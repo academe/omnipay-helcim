@@ -20,15 +20,15 @@ class DirectGateway extends AbstractCommonGateway
     // Similar for AVS responses.
 
     // M - Match.
-    const CVV2_RESPONSE_M = 'M';
+    const CVV2_RESPONSE_MATCH = 'M';
     // N - No match.
-    const CVV2_RESPONSE_N = 'N';
+    const CVV2_RESPONSE_NO_MATCH = 'N';
     // P - Not processed.
-    const CVV2_RESPONSE_P = 'P';
+    const CVV2_RESPONSE_NOT_PROCESSED = 'P';
     // S - Issuer indicates CCV2 should be present, but merchant has not presetnted it.
-    const CVV2_RESPONSE_S = 'S';
+    const CVV2_RESPONSE_NOT_PRESENTED = 'S';
     // Issuer not certified.
-    const CVV2_RESPONSE_U = 'U';
+    const CVV2_RESPONSE_NOT_CERTIFIED = 'U';
 
     public function getName()
     {

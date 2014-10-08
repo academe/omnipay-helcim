@@ -133,8 +133,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
-     * The order ID is only used when fetching a transaction from the API.
+     * The order ID is an application-controllable ID, and must be unique.
+     * The gateway will generate the orderId if left blank.
+     * NOTE: now using transactionId as the orderId
      */
+    /*
     public function setOrderId($value)
     {
         return $this->setParameter('orderId', $value);
@@ -144,6 +147,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     {
         return $this->getParameter('orderId');
     }
+    */
 
     /**
      * The method can be left as GET for simple payments or POST for more complex payments.
@@ -218,6 +222,16 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         if ($this->getDescription()) {
             $data['comments'] = $this->getDescription();
         }
+
+        // There is some confusion here on what Helcim and OmniPay consider
+        // the "transaction ID".
+        // For Helcim, the orderId must be unique, and is controlled by the
+        // application. It is the only ID that will allow the application to
+        // fetch back the transaction from Helcim, without having first passed
+        // through a user's browser where it could have been manipulated.
+        // Due to this restriction, we must always set an orderId when using
+        // Helcim Hosted Pages.
+        // Some other gateway drivers would call this the transactionId.
 
         if ($this->getTransactionId()) {
             $data['orderId'] = $this->getTransactionId();
