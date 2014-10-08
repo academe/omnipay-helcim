@@ -34,7 +34,7 @@ and tries to highlight any peculiarities of Helcim.
 
 ## Tests
 
-No, none yet. If you can help, then please do.
+No, none yet. If you can help, then please do. Would be much appreciated.
 
 ## TODO
 
@@ -49,7 +49,12 @@ Functionality still to be implemented:
 * [ ] Direct Transaction Search
 * [ ] Transaction History
   * [x] Fetch One
-  * [ ] Fetch List
+  * [ ] Fetch List (Note 1)
 * [x] Hosted Pages Authorize
 * [x] Hosted Pages Purchase
+* [x] Access to Hosted Pages custom fields
 
+Notes:
+
+1. Lists of transactions can be fetched, but it returns an array of XML objects at present.
+That is not going to be as useful as it could be. Maybe we need a transaction object.
