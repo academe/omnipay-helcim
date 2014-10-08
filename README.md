@@ -46,7 +46,6 @@ Functionality still to be implemented:
 * [ ] Direct Purchase
 * [ ] Direct Refund
 * [ ] Direct Void
-* [ ] Direct Transaction Search
 * [ ] Transaction History
   * [x] Fetch One
   * [ ] Fetch List (Note 1)
