@@ -36,32 +36,6 @@ class DirectGateway extends AbstractCommonGateway
     }
 
     /**
-     * The transaction date is only used when fetching a transaction from the API.
-     */
-    public function setTransactionDate($value)
-    {
-        return $this->setParameter('transactionDate', $value);
-    }
-
-    public function getTransactionDate()
-    {
-        return $this->getParameter('transactionDate');
-    }
-
-    /**
-     * Search string when retrieving transactions from the history.
-     */
-    public function setSearch($value)
-    {
-        return $this->setParameter('search', $value);
-    }
-
-    public function getSearch()
-    {
-        return $this->getParameter('search');
-    }
-
-    /**
      * For handling a purchase.
      */
     public function purchase(array $parameters = array())
