@@ -39,50 +39,6 @@ class HostedPagesGateway extends AbstractCommonGateway
     }
 
     /**
-     * The shipping and tax amounts are displayed on the payment form.
-     * They are not validated by the gateway, as currently understood.
-     */
-    public function setShippingAmount($value)
-    {
-        return $this->setParameter('shippingAmount', $value);
-    }
-
-    public function getShippingAmount()
-    {
-        return $this->getParameter('shippingAmount');
-    }
-
-    public function setTaxAmount($value)
-    {
-        return $this->setParameter('taxAmount', $value);
-    }
-
-    public function getTaxAmount()
-    {
-        return $this->getParameter('taxAmount');
-    }
-
-    public function setCustomerId($value)
-    {
-        return $this->setParameter('customerId', $value);
-    }
-
-    public function getCustomerId()
-    {
-        return $this->getParameter('customerId');
-    }
-
-    public function setTransactionId($value)
-    {
-        return $this->setParameter('transactionId', $value);
-    }
-
-    public function getTransactionId()
-    {
-        return $this->getParameter('transactionId');
-    }
-
-    /**
      * Entry points to the different types of request.
      */
 

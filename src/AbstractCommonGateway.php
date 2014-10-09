@@ -18,8 +18,6 @@ abstract class AbstractCommonGateway extends AbstractGateway
             'method' => array('GET', 'POST'),
             'testMode' => array(0, 1),
             'developerMode' => array(0, 1),
-            'shippingAmount' => 0,
-            'taxAmount' => 0,
         );
     }
 

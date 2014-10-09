@@ -301,7 +301,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
             // Single billing name, first and last joined.
             if ($card->getShippingName()) {
-                $data['shippingName'] = getShippingName();
+                $data['shippingName'] = $card->getShippingName();
             }
 
             // Single address, 1 and 2 joined.
