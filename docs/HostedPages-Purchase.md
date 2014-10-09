@@ -49,18 +49,27 @@ The following sample will initialize a request for payment using the minimum of 
     // Save this transaction ID in the session.
     $transactionId = date('Y-m-d_H-i-s');
     
-    // Optional personal details where known.
+    // Optional personal details where known (name, address, email, phone).
     // See OmniPay documentation for usage.
-    // The card and CVV data passed in hwre will be ignored.
+    // The card and CVV data passed in hwre will be ignored, so $card here is
+    // everything personal *except* the card details.
     $card = new CreditCard([...]);
     
     // Send the transaction to OmniPay.
     $response = $gateway->purchase([
+        // Mandatory parameters:
         'amount' => 10.00,
         'transactionId' => $transactionId,
+        
+        // Optional parameters:
         'card' => $card,
-        'description' => "Mandatory description",
-        'customerId' => 'Mandatory customer ID',
+        'taxAmount' => 12.34,
+        'shippingAmount' => 56.78,
+        
+        // The following parameters are optional or mandatory, depending on how
+        // the Hosted Pages form is set up:
+        'description' => "Transaction description",
+        'customerId' => 'Customer ID',
     ])->send();
     
     // Alternatively, $gateway->autyhorize(...) for just authorization.
