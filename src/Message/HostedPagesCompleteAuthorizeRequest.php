@@ -121,14 +121,13 @@ class HostedPagesCompleteAuthorizeRequest extends AbstractRequest
         $gateway->setDeveloperMode($this->getDeveloperMode());
         $gateway->setTestMode($this->getTestMode());
 
-        // Set the transaction to fetch.
-        $gateway->setTransactionId($this->getTransactionId());
-
         // Need to be able to support POST too, but it's broken at the moment.
         $gateway->setMethod('get');
 
         // Get the transaction
-        $fetch_response = $gateway->fetchTransaction()->send();
+        $fetch_response = $gateway
+            ->fetchTransaction(['transactionId' => $this->getTransactionId()])
+            ->send();
 
         // Get the transaction details (from Helcim) as an array.
         $fetch_transaction = $fetch_response->getTransactionArray();
