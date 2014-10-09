@@ -130,9 +130,13 @@ The Approval URL should handle the result as in the example below:
         // https://www.helcim.com/support/?article=115
         // with the exception that the amount field will be stripped of any currency
         // symbols and thousand's-separator characters.
-        // In addition, captured billing address and shipping address fields, and (possibly)
+        // In addition, captured billing address and shipping address fields, and any
         // custom fields will be included in the data.
         $transaction = $response->getData();
+        
+        // Some convenience methods:
+        $custom_fields = $response->getCustom();
+        $warning_messages = $response->getNotice();
     } else {
         echo $response->getErrorMessage();
     }
