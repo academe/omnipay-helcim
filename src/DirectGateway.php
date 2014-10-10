@@ -30,6 +30,30 @@ class DirectGateway extends AbstractCommonGateway
     // Issuer not certified.
     const CVV2_RESPONSE_NOT_CERTIFIED = 'U';
 
+    // AVS reponse codes.
+    // These could possibly be intermationally standardised, so may be better
+    // in OmniPay core or shared in some other way.
+
+    static $avs_response_codes = array(
+        'A' => 'Address (Street) matches, Zip does not.',
+        'B' => 'Street address match, Postal code in wrong format. (international issuer)',
+        'C' => 'Street address and postal code in wrong formats',
+        'D' => 'Street address and postal code match (international issuer)',
+        'E' => 'AVS error',
+        'F' => 'Address does compare and five-digit ZIP code does compare (UK only).',
+        'G' => 'Card issued by a non-US issuer that does not participate in the AVS System',
+        'I' => 'Address information not verified by international issuer.',
+        'M' => 'Street Address and Postal code match (international issuer)',
+        'N' => 'No Match on Address (Street) or Zip',
+        'P' => 'Postal codes match, Street address not verified due to incompatible formats.',
+        'R' => 'Retry, System unavailable or Timed out',
+        'S' => 'Service not supported by issuer',
+        'U' => 'Address information is unavailable (domestic issuer)',
+        'W' => '9 digit Zip matches, Address (Street) does not',
+        'X' => 'Exact AVS Match Y = Address (Street) and 5 digit Zip match',
+        'Z' => '5 digit Zip matches, Address (Street) does not',
+    );
+
     public function getName()
     {
         return 'Helcim Direct';
@@ -45,6 +69,7 @@ class DirectGateway extends AbstractCommonGateway
 
     /**
     * For the return path from the remote Hosted Page.
+    * CHECKME: needed?
     */
     public function completePurchase(array $parameters = array())
     {
@@ -61,10 +86,19 @@ class DirectGateway extends AbstractCommonGateway
 
     /**
     * For the return path from the remote Hosted Page.
+    * CHECKME: needed?
     */
     public function completeAuthorize(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Helcim\Message\DirectCompleteRequest', $parameters);
+    }
+
+    /**
+     * For handling a capture action.
+     */
+    public function capture(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Helcim\Message\DirectCaptureRequest', $parameters);
     }
 
     /**

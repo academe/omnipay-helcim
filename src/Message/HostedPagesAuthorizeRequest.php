@@ -12,18 +12,11 @@ class HostedPagesAuthorizeRequest extends AbstractRequest
 
     public function getData()
     {
+        $this->validate('amount');
+
         // Get the base data for the Hosted Page.
 
         $data = $this->getHostedPagesBaseData();
-
-        $this->validate('amount');
-
-        // Add the test flag only if we are testing.
-        // Note that this is different to and independant of developer mode.
-
-        if ($this->getTestMode()) {
-            $data['test'] = '1';
-        }
 
         // Everything else is optional.
         // Some fields will come from the shipping and billing address. Others are for this gateway only.

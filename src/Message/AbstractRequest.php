@@ -11,6 +11,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
     /**
      * The parts used to construct the endpoint URL.
+     * The developer accounts use a different domain to the active (live) accounts.
+     * In addition, the active accounts can be run in live or test mode.
      */
     protected $endpointDevDomain = 'gatewaytest.helcim.com';
     protected $endpointProdDomain = 'gateway.helcim.com';
@@ -23,10 +25,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * Values are: "purchase", "preauth", "capture", "refund" or "void".
      * Also "recurring", with a start date and special handling of the amount.
      * The Hosted Pages mode only supports preauth and purchase.
-     *
-     * TODO: should this be implemented as getService() instead?
      */
-    protected $action = 'purchase';
+    protected $action = 'preauth';
 
     /**
      * The endpoint URL depends on whether the mode is Direct or Hosted Pages.
@@ -35,6 +35,12 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * checking and duplication on the mode property across multiple Request classes.
      */
     protected $mode = 'direct';
+
+    /**
+     * TODO: split these methods off to other layers of abstraction to group the
+     * parameters needed for payment and authorisation transactions, from the
+     * simpler transactions that don't need any customer and card details.
+     */
 
     public function setDeveloperMode($value)
     {
@@ -106,8 +112,43 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->getParameter('customerId');
     }
 
+    public function setCvvIndicator($value)
+    {
+        return $this->setParameter('cvvIndicator', $value);
+    }
+
+    public function getCvvIndicator()
+    {
+        return $this->getParameter('cvvIndicator');
+    }
+
+    // cardoken and carF4l4 can be sent as an alternative to the
+    // credit card number, expiry and CVV.
+    // Only needed for Direct payment and preauth transactions.
+
+    public function setCardToken($value)
+    {
+        return $this->setParameter('cardToken', $value);
+    }
+
+    public function getCardToken()
+    {
+        return $this->getParameter('cardToken');
+    }
+
+    public function setCardF4l4($value)
+    {
+        return $this->setParameter('cardF4l4', $value);
+    }
+
+    public function getCardF4l4()
+    {
+        return $this->getParameter('cardF4l4');
+    }
+
     /**
      * The transaction date is used when fetching a transaction from the API.
+     * TODO: move this to the TransactionHistory class.
      */
     public function setTransactionDate($value)
     {
@@ -121,6 +162,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * The transaction search string is used when fetching a transaction from the API.
+     * TODO: move this to the TransactionHistory class.
      */
     public function setSearch($value)
     {
@@ -131,23 +173,6 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     {
         return $this->getParameter('search');
     }
-
-    /**
-     * The order ID is an application-controllable ID, and must be unique.
-     * The gateway will generate the orderId if left blank.
-     * NOTE: now using transactionId as the orderId
-     */
-    /*
-    public function setOrderId($value)
-    {
-        return $this->setParameter('orderId', $value);
-    }
-
-    public function getOrderId()
-    {
-        return $this->getParameter('orderId');
-    }
-    */
 
     /**
      * The method can be left as GET for simple payments or POST for more complex payments.
@@ -170,11 +195,17 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $data = array();
 
         $data['merchantId'] = $this->getMerchantId();
-        if ($this->action != 'search') $data['type'] = $this->action;
+
+        // The search action is indicated to Helcim by not supplying any "type" field.
+
+        if ($this->action != 'search') {
+            $data['type'] = $this->action;
+        }
 
         // The test parameter will indicate this is a test transaction. This flag can be
         // used in the production environment. It differs from enabling "developer mode",
-        // which switches to an alternative developer environment.
+        // which switches to an alternative developer environment and operates on different
+        // developer merchant accounts.
 
         if ($this->getTestMode()) {
             $data['test'] = '1';
@@ -347,7 +378,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     protected function getCardData()
     {
-        $card = array();
+        $data = array();
 
         if ($card = $this->getCard()) {
             if ($card->getNumber()) {
@@ -366,7 +397,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
                 $data['cvv'] = $getCvv;
             }
 
-            // A customer field for Helcim, indicates how CVV will be handled.
+            // A custom field for Helcim, indicates how CVV will be handled.
             // The documentation lists this as mandatory for direct mode.
 
             if ($this->getCvvIndicator()) {
@@ -374,7 +405,19 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             }
         }
 
-        return $card;
+        // As an alternative to the card data, the tokenised card can be used.
+        // This consists of the token that was captured in an earlier transaction,
+        // and the outside eight digits of the card number.
+
+        if ($this->getCardToken()) {
+            $data['cardToken'] = $this->getCardToken();
+        }
+
+        if ($this->getCardF4l4()) {
+            $data['cardF4l4'] = $this->getCardF4l4();
+        }
+
+        return $data;
     }
 
     /**
