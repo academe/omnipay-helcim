@@ -16,7 +16,7 @@ class DirectAuthorizeRequest extends AbstractRequest
     public function getData()
     {
         // Some of this mandatory data will be in the card, and I'm not sure
-        // if validate() will look in there for it.
+        // if validate() will look in there for it. (see sagepay for an example of how it works)
         $this->validate('amount'); //, 'cardNumber', 'expiryDate', 'cvvIndicator', 'cvv');
 
         // Get authentication card, billing and cart data.
@@ -36,13 +36,14 @@ class DirectAuthorizeRequest extends AbstractRequest
     public function sendData($data)
     {
         // Send the POST to the gateway.
-        // CHECKME: is $this->getMethod() relevant here? I would say it isn't.
+        $this->setMethod('POST');
+
         $httpResponse = $this
             ->httpClient
-            ->post($this->getEndpoint(), null, $data)
+            ->post($this->getEndpoint(), [], $data)
             ->send();
 
-        return $this->createResponse($httpResponse->xml());
+        return $this->createResponse($httpResponse->getBody());
     }
 
     /**

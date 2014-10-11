@@ -12,12 +12,55 @@ use Omnipay\Common\Message\RequestInterface;
 class DirectAuthorizeResponse extends AbstractResponse implements ResponseInterface
 {
     /**
+     * The data will be a Guzzle body object that evaluates into a string
+     * containing a list of "name=value" strings, separated into separate lines.
+     */
+    public function __construct(RequestInterface $request, $data)
+    {
+        $this->request = $request;
+
+        // Split into lines.
+        // We do not know if the lines will be terminated in Unix, Windows, or Mac
+        // convention, or even a mix, so we accept them all.
+
+        $lines = preg_split('/[\n\r]+/', (string)$data);
+
+        $result = array();
+
+        foreach($lines as $line) {
+            if (strpos($line, '=') === false) continue;
+
+            list($name, $value) = explode('=', $line, 2);
+            $result[$name] = $value;
+        }
+
+        // Now we have the returned fields.
+        $this->data = $result;
+    }
+
+    /**
      * Returns true if the transaction is complete and authorised, and there are no
      * further steps, such as redirects to complete 3DAuth.
      */
     public function isSuccessful()
     {
-        //return true;
+        return ! empty($this->data['response']);
+    }
+
+    public function getMessage()
+    {
+        return isset($this->data['responseMessage']) ? $this->data['responseMessage'] : null;
+    }
+
+    // CHECKME: the "code" is the approval code?
+    public function getCode()
+    {
+        return isset($this->data['approvalCode']) ? $this->data['approvalCode'] : null;
+    }
+
+    public function getTransactionReference()
+    {
+        return isset($this->data['transactionId']) ? $this->data['transactionId'] : null;
     }
 }
 
