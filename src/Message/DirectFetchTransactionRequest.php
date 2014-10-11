@@ -15,6 +15,32 @@ use Omnipay\Common\Exception\InvalidRequestException;
 class DirectFetchTransactionRequest extends DirectTransactionHistoryRequest
 {
     /**
+     * The transaction date is used when fetching a transaction from the API.
+     */
+    public function setTransactionDate($value)
+    {
+        return $this->setParameter('transactionDate', $value);
+    }
+
+    public function getTransactionDate()
+    {
+        return $this->getParameter('transactionDate');
+    }
+
+    /**
+     * The transaction search string is used when fetching a transaction from the API.
+     */
+    public function setSearch($value)
+    {
+        return $this->setParameter('search', $value);
+    }
+
+    public function getSearch()
+    {
+        return $this->getParameter('search');
+    }
+
+    /**
      * Collect the data together that will be sent to the API.
      * We can now include the orderId or the transactionId in the search.
      * If either unique ID is provided, then move it to the general search string

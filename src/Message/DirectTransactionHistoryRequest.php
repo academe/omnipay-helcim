@@ -48,12 +48,8 @@ class DirectTransactionHistoryRequest extends AbstractRequest
     }
 
     /**
-     * TODO: move this to AbstractRequest or the base Direct*Request.
-     * Check first if all the direct transaction types expect an XML response.
      * Send the data to the remote API service.
-     * We need to go through the recieved transactions and find the one with
-     * the orderId or transactionId that we want to get.
-     * FIXME: POST is not working.
+     * This service will work with GET or POST.
      */
     public function sendData($data)
     {
@@ -63,11 +59,13 @@ class DirectTransactionHistoryRequest extends AbstractRequest
         if ($method == 'GET') {
             // Send a GET request.
             // The endpoint will already have GET parameters added.
+
             $httpResponse = $this->httpClient->get($endpoint)->send();
         } else {
             // Send a POST request.
             // The endpoint for a POST will not have GET parameters on the URL.
-            $httpResponse = $this->httpClient->post($endpoint, ['body' => $data])->send();
+
+            $httpResponse = $this->httpClient->post($endpoint, [], $data)->send();
         }
 
         // Return a SimpleXMLElement containing a list of transactions.

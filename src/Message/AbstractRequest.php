@@ -3,7 +3,8 @@
 namespace Omnipay\Helcim\Message;
 
 use Omnipay\Omnipay;
-use \Omnipay\Common\Message\AbstractRequest as OmnipayAbstractRequest;
+use Omnipay\Common\Message\AbstractRequest as OmnipayAbstractRequest;
+use Guzzle\Http\Url;
 
 /**
  * Helcim Abstract Request
@@ -15,12 +16,14 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
      * The developer accounts use a different domain to the active (live) accounts.
      * In addition, the active accounts can be run in live or test mode.
      */
+    protected $endpointScheme = 'https';
+
     protected $endpointDevDomain = 'gatewaytest.helcim.com';
     protected $endpointProdDomain = 'gateway.helcim.com';
 
-    protected $endpointTemplateHostedPages = 'https://{domain}/hosted/';
-    protected $endpointTemplateDirectHistory = 'https://{domain}/api/';
-    protected $endpointTemplateDirectActions = 'https://{domain}/';
+    protected $endpointPathHostedPages = '/hosted/';
+    protected $endpointPathDirectHistory = '/api/';
+    protected $endpointPathDirectActions = '/';
 
     /**
      * The transaction action (type).
@@ -149,34 +152,6 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
     public function getCardF4l4()
     {
         return $this->getParameter('cardF4l4');
-    }
-
-    /**
-     * The transaction date is used when fetching a transaction from the API.
-     * TODO: move this to the TransactionHistory class.
-     */
-    public function setTransactionDate($value)
-    {
-        return $this->setParameter('transactionDate', $value);
-    }
-
-    public function getTransactionDate()
-    {
-        return $this->getParameter('transactionDate');
-    }
-
-    /**
-     * The transaction search string is used when fetching a transaction from the API.
-     * TODO: move this to the TransactionHistory class.
-     */
-    public function setSearch($value)
-    {
-        return $this->setParameter('search', $value);
-    }
-
-    public function getSearch()
-    {
-        return $this->getParameter('search');
     }
 
     /**
@@ -490,45 +465,34 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
 
         switch($this->mode) {
             case 'direct':
+                // The Direct entry point works only with POST, and the search
+                // entry point can work with either, so we stick with POST.
+                $this->setMethod('POST');
+
                 // The search (aka history) API has a different entry point.
-                // CHECKME: It possibly works only with GET.
 
                 if ($this->action == 'search') {
-                    $template = $this->endpointTemplateDirectHistory;
+                    $path = $this->endpointPathDirectHistory;
                 } else {
-                    $template = $this->endpointTemplateDirectActions;
-
-                    // This entry point works only with POST.
-                    $this->setMethod('POST');
+                    $path = $this->endpointPathDirectActions;
                 }
                 break;
 
             case 'hostedpages':
                 // This entry point works with GET or POST, whichever is convenient.
-                $template = $this->endpointTemplateHostedPages;
+                $path = $this->endpointPathHostedPages;
                 break;
 
             default:
                 throw new InvalidRequestException('Invalid mode.');
         }
-//return [$template, ['domain' => $domain]];
-        $url = str_replace('{domain}', $domain, $template);
 
+        // Build the URL from the parts.
+
+        $url = new Url($this->endpointScheme, $domain);
+        $url->setPath($path);
         if ($this->getMethod() == 'GET') {
-            // For the GET method, all data needs to be added to the URL.
-            // The data could be minimal - just the Merchant ID and the gateway token is enough.
-
-            $data = $this->getData();
-
-            $separator = strpos($url, '?') === false ? '?' : '&';
-            foreach($data as $key => $value) {
-                $url .= $separator;
-                $url .= urlencode($key);
-                $url .= '=';
-                $url .= urlencode($value);
-
-                $separator = '&';
-            }
+            $url->setQuery($this->getData());
         }
 
         return $url;

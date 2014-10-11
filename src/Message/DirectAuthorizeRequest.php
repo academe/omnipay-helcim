@@ -35,7 +35,7 @@ class DirectAuthorizeRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        // Send the POST to the gateway.
+        // Send POST to the gateway.
         $this->setMethod('POST');
 
         $httpResponse = $this

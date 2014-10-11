@@ -28,8 +28,10 @@ class DirectResponse extends AbstractResponse implements ResponseInterface
         $result = array();
 
         foreach($lines as $line) {
+            // Skip any blank or extraneous lines.
             if (strpos($line, '=') === false) continue;
 
+            // We assume nothing needs to be trimmed.
             list($name, $value) = explode('=', $line, 2);
             $result[$name] = $value;
         }

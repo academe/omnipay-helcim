@@ -68,15 +68,6 @@ class DirectGateway extends AbstractCommonGateway
     }
 
     /**
-    * For the return path from the remote Hosted Page.
-    * CHECKME: needed?
-    */
-    public function completePurchase(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\Helcim\Message\DirectCompleteRequest', $parameters);
-    }
-
-    /**
      * For handling an authorize action.
      */
     public function authorize(array $parameters = array())
@@ -85,20 +76,19 @@ class DirectGateway extends AbstractCommonGateway
     }
 
     /**
-    * For the return path from the remote Hosted Page.
-    * CHECKME: needed?
-    */
-    public function completeAuthorize(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\Helcim\Message\DirectCompleteRequest', $parameters);
-    }
-
-    /**
      * For handling a capture action.
      */
     public function capture(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Helcim\Message\DirectCaptureRequest', $parameters);
+    }
+
+    /**
+     * For handling a void action.
+     */
+    public function void(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Helcim\Message\DirectVoidRequest', $parameters);
     }
 
     /**
