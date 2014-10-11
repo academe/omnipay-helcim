@@ -31,7 +31,7 @@ class DirectAuthorizeRequest extends AbstractRequest
     }
 
     /**
-     * The response to sending the data is the XML data.
+     * The response to sending the request is a text list of name=value pairs.
      */
     public function sendData($data)
     {
@@ -51,7 +51,7 @@ class DirectAuthorizeRequest extends AbstractRequest
      */
     protected function createResponse($data)
     {
-        return $this->response = new DirectAuthorizeResponse($this, $data);
+        return $this->response = new DirectResponse($this, $data);
     }
 }
 

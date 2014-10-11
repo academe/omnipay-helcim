@@ -7,9 +7,9 @@ use Omnipay\Common\Message\ResponseInterface;
 use Omnipay\Common\Message\RequestInterface;
 
 /**
-* Helcim Direct Direct Authorize Response
+* Helcim Direct Authorize and Purchase Response
 */
-class DirectAuthorizeResponse extends AbstractResponse implements ResponseInterface
+class DirectResponse extends AbstractResponse implements ResponseInterface
 {
     /**
      * The data will be a Guzzle body object that evaluates into a string
