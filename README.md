@@ -40,12 +40,12 @@ No, none yet. If you can help, then please do. Would be much appreciated.
 
 Functionality still to be implemented:
 
-* [ ] Direct Address Verification
-* [ ] Direct Authorization
-* [ ] Direct Capture
-* [ ] Direct Purchase
-* [ ] Direct Refund
-* [ ] Direct Void
+* [ ] Direct Address Verification (Note 2)
+* [x] Direct Authorization
+* [x] Direct Capture
+* [x] Direct Purchase
+* [x] Direct Refund
+* [x] Direct Void
 * [ ] Transaction History
   * [x] Fetch One
   * [ ] Fetch List (Note 1)
@@ -56,4 +56,6 @@ Functionality still to be implemented:
 Notes:
 
 1. Lists of transactions can be fetched, but it returns an array of XML objects at present.
-That is not going to be as useful as it could be. Maybe we need a transaction object.
+   That is not going to be as useful as it could be. Maybe we need a transaction object.
+2. It is not clear whether address verification can be run by itself, or whether it runs as
+   an added (optional) benefit to the authorize and purchase actions.
