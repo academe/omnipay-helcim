@@ -64,5 +64,15 @@ class DirectResponse extends AbstractResponse implements ResponseInterface
     {
         return isset($this->data['transactionId']) ? $this->data['transactionId'] : null;
     }
+
+    /**
+     * Get the first and last four digits from the card.
+     * These will be returned here, but with asterisks that need to be removed.
+     * e.g. "4242****4242"
+     */
+    public function getCardF4l4()
+    {
+        return isset($this->data['cardNumber']) ? preg_replace('/[^0-9]/', '', $this->data['cardNumber']) : null;
+    }
 }
 

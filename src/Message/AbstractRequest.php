@@ -342,46 +342,47 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
      * Get the card data.
      * Only used for direct API mode.
      * Start date and issue number are not supported.
+     * TODO: ensure we return either the card or the token, but not both.
      */
     protected function getCardData()
     {
         $data = array();
 
-        if ($card = $this->getCard()) {
-            if ($card->getNumber()) {
-                $data['cardNumber'] = $card->getNumber();
-            }
-
-            // CHECKME: will this work if the year is '00'?
-            // Not that '00' will happen for a while, but good just to be sure.
-
-            if ($card->getExpiryMonth() && $card->getExpiryYear()) {
-                $data['expiryDate'] = $card->getExpiryDate('my');
-            }
-
-            $getCvv = $card->getCvv();
-            if (isset($getCvv) && $getCvv != '') {
-                $data['cvv'] = $getCvv;
-            }
-
-            // A custom field for Helcim, indicates how CVV will be handled.
-            // The documentation lists this as mandatory for direct mode.
-
-            if ($this->getCvvIndicator()) {
-                $data['cvvIndicator'] = $this->getCvvIndicator();
-            }
-        }
-
         // As an alternative to the card data, the tokenised card can be used.
         // This consists of the token that was captured in an earlier transaction,
         // and the outside eight digits of the card number.
 
-        if ($this->getCardToken()) {
+        if ($this->getCardToken() && $this->getCardF4l4()) {
             $data['cardToken'] = $this->getCardToken();
-        }
-
-        if ($this->getCardF4l4()) {
             $data['cardF4l4'] = $this->getCardF4l4();
+        } else {
+            if ($card = $this->getCard()) {
+                // Make sure all parts of the card are set.
+                $card->validate();
+
+                if ($card->getNumber()) {
+                    $data['cardNumber'] = $card->getNumber();
+                }
+
+                // CHECKME: will this work if the year is '00'?
+                // Not that '00' will happen for a while, but good just to be sure.
+
+                if ($card->getExpiryMonth() && $card->getExpiryYear()) {
+                    $data['expiryDate'] = $card->getExpiryDate('my');
+                }
+
+                $getCvv = $card->getCvv();
+                if (isset($getCvv) && $getCvv != '') {
+                    $data['cvv'] = $getCvv;
+                }
+
+                // A custom field for Helcim, indicates how CVV will be handled.
+                // The documentation lists this as mandatory for direct mode.
+
+                if ($this->getCvvIndicator()) {
+                    $data['cvvIndicator'] = $this->getCvvIndicator();
+                }
+            }
         }
 
         return $data;

@@ -92,6 +92,14 @@ class DirectGateway extends AbstractCommonGateway
     }
 
     /**
+     * For handling a refund action.
+     */
+    public function refund(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Helcim\Message\DirectRefundRequest', $parameters);
+    }
+
+    /**
      * To fetch a single transaction.
      * Fetch by transactionId or orderId. Both will be unique.
      */
