@@ -1,7 +1,5 @@
 <?php
 
-namespace Omnipay\Helcim\Message;
-
 use Omnipay\Common\Message\AbstractResponse;
 
 /**

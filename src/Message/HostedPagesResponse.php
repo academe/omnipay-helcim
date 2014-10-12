@@ -20,8 +20,6 @@ class HostedPagesResponse extends AbstractResponse implements RedirectResponseIn
     {
         $this->request = $request;
         $this->data = $data;
-        //$this->redirectUrl = $request->getEndpoint();
-        //$this->method = $request->getMethod();
     }
 
     public function isSuccessful()

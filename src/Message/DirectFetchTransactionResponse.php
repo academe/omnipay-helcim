@@ -2,10 +2,6 @@
 
 namespace Omnipay\Helcim\Message;
 
-use Omnipay\Common\Message\AbstractResponse;
-use Omnipay\Common\Message\RedirectResponseInterface;
-use Omnipay\Common\Message\RequestInterface;
-
 /**
  * The result of a search for a single transaction.
  */
@@ -19,10 +15,10 @@ class DirectFetchTransactionResponse extends DirectTransactionHistoryResponse
 
     /**
      * We will be given an array of a single XML transaction.
-     * We should have exectly one; this service is used to fetch
+     * We should have exactly one; this service is used to fetch
      * just one transaction for validation.
      * FIXME: there could be more than one match - just go through them
-     * to find the one with the exact transaction ID.
+     * to find the one with the exact transactionId or transactionReference.
      */
     public function __construct($request, \SimpleXMLElement $data)
     {
@@ -55,6 +51,7 @@ class DirectFetchTransactionResponse extends DirectTransactionHistoryResponse
 
     /**
      * The details of the transaction, as a SimpleXMLElement object.
+     * No, we don't want to spit out XML. See Issue #11
      */
     public function getTransaction()
     {

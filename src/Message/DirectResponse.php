@@ -2,7 +2,6 @@
 
 namespace Omnipay\Helcim\Message;
 
-use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\ResponseInterface;
 use Omnipay\Common\Message\RequestInterface;
 
@@ -52,27 +51,6 @@ class DirectResponse extends AbstractResponse implements ResponseInterface
     public function getMessage()
     {
         return isset($this->data['responseMessage']) ? $this->data['responseMessage'] : null;
-    }
-
-    // CHECKME: the "code" is the approval code?
-    public function getCode()
-    {
-        return isset($this->data['approvalCode']) ? $this->data['approvalCode'] : null;
-    }
-
-    public function getTransactionReference()
-    {
-        return isset($this->data['transactionId']) ? $this->data['transactionId'] : null;
-    }
-
-    /**
-     * Get the first and last four digits from the card.
-     * These will be returned here, but with asterisks that need to be removed.
-     * e.g. "4242****4242"
-     */
-    public function getCardF4l4()
-    {
-        return isset($this->data['cardNumber']) ? preg_replace('/[^0-9]/', '', $this->data['cardNumber']) : null;
     }
 }
 
