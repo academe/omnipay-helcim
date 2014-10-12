@@ -20,6 +20,14 @@ abstract class AbstractResponse extends OmnipayAbstractResponse
     }
 
     /**
+     * The displayable card number.
+     */
+    public function getCardNumber()
+    {
+        return isset($this->data['cardNumber']) ? $this->data['cardNumber'] : null;
+    }
+
+    /**
      * The Helcim Order ID is ultimately application generated. However, if the application
      * does not provide one, then Helcim will make one for you.
      */
