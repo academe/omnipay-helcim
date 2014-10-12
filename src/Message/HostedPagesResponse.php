@@ -16,34 +16,36 @@ class HostedPagesResponse extends AbstractResponse implements RedirectResponseIn
 {
     protected $redirectUrl;
 
-    public function __construct(RequestInterface $request, $data, $redirectUrl, $method)
+    public function __construct(RequestInterface $request, $data)
     {
         $this->request = $request;
         $this->data = $data;
-        $this->redirectUrl = $redirectUrl;
-        $this->method = $method;
+        //$this->redirectUrl = $request->getEndpoint();
+        //$this->method = $request->getMethod();
     }
 
     public function isSuccessful()
     {
-        // False so the calling applicaton knows that the transaction is not yet complete.
+        // False so the calling applicaton knows that the transaction
+        // is not yet complete (until after the redirect).
         return false;
     }
 
     public function isRedirect()
     {
-        // True so the calling application knows a redirect to the hosted payment form is needed.
+        // True so the calling application knows a redirect
+        // to the hosted payment form is needed.
         return true;
     }
 
     public function getRedirectUrl()
     {
-        return $this->redirectUrl;
+        return $this->request->getEndpoint();
     }
 
     public function getRedirectMethod()
     {
-        return $this->method;
+        return $this->request->getMethod();
     }
 
     public function getRedirectData()
@@ -51,3 +53,4 @@ class HostedPagesResponse extends AbstractResponse implements RedirectResponseIn
         return $this->getData();
     }
 }
+

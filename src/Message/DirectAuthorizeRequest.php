@@ -24,6 +24,8 @@ class DirectAuthorizeRequest extends AbstractRequest
             $this->getDirectBaseData(),
             $this->getCardData(),
             $this->getBillingData(),
+            $this->getBillingAddressData(),
+            $this->getShippingAddressData(),
             $this->getCartData()
         );
 

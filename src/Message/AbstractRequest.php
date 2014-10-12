@@ -221,7 +221,119 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
     }
 
     /**
-     * Get the billing data (not including the entered card details).
+     * Get billing address, including the name, phone number and email.
+     * All parts of the address are optional at the API level, though may be
+     * marked as mandatory in the hosted form created on Helcim.
+     */
+    protected function getBillingAddressData()
+    {
+        $data = array();
+
+        if ($card = $this->getCard()) {
+            // Billing address/person details.
+
+            // Single billing name, first and last joined.
+
+            if ($card->getBillingName()) {
+                $data['billingName'] = $card->getBillingName();
+            }
+
+            // Single address, 1 and 2 joined.
+            // The hosted form provides a single line for this field, so we join with just a space.
+            // CHECKME: are either address parts multi-line? May need to convert to a single line.
+
+            if ($card->getBillingAddress1() || $card->getBillingAddress2()) {
+                $data['billingAddress'] = trim($card->getBillingAddress1() . ' ' . $card->getBillingAddress2());
+            }
+
+            if ($card->getBillingCity()) {
+                $data['billingCity'] = $card->getBillingCity();
+            }
+
+            if ($card->getBillingState()) {
+                $data['billingProvince'] = $card->getBillingState();
+            }
+
+            if ($card->getBillingPostcode()) {
+                $data['billingPostalCode'] = $card->getBillingPostcode();
+            }
+
+            // This is the country spelled out in full, not the ISO3166 code.
+
+            if ($card->getBillingCountry()) {
+                $data['billingCountry'] = $card->getBillingCountry();
+            }
+
+            if ($card->getBillingPhone()) {
+                $data['billingPhoneNumber'] = $card->getBillingPhone();
+            }
+
+            // Note: omnipay supports no separate billing and shipping email addresses.
+
+            if ($card->getEmail()) {
+                $data['billingEmailAddress'] = $card->getEmail();
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * Get shiping address, including the name, phone number and email.
+     * All parts of the address are optional at the API level.
+     */
+    protected function getShippingAddressData()
+    {
+        $data = array();
+
+        if ($card = $this->getCard()) {
+            // Single shipping name, first and last joined.
+
+            if ($card->getShippingName()) {
+                $data['shippingName'] = $card->getShippingName();
+            }
+
+            // Single address, 1 and 2 joined.
+            // The hosted form provides a single line for this field, so we join with just a space.
+
+            if ($card->getShippingAddress1() || $card->getShippingAddress2()) {
+                $data['shippingAddress'] = trim($card->getShippingAddress1() . ' ' . $card->getShippingAddress2());
+            }
+
+            if ($card->getShippingCity()) {
+                $data['shippingCity'] = $card->getShippingCity();
+            }
+
+            if ($card->getShippingState()) {
+                $data['shippingProvince'] = $card->getShippingState();
+            }
+
+            if ($card->getShippingPostcode()) {
+                $data['shippingPostalCode'] = $card->getShippingPostcode();
+            }
+
+            // This is the country spelled out in full, not the ISO3166 code.
+
+            if ($card->getShippingCountry()) {
+                $data['shippingCountry'] = $card->getShippingCountry();
+            }
+
+            if ($card->getShippingPhone()) {
+                $data['shippingPhoneNumber'] = $card->getShippingPhone();
+            }
+
+            // Note: there are no separate billing and shipping email addresses in omnipay.
+
+            if ($card->getEmail()) {
+                $data['shippingEmailAddress'] = $card->getEmail();
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * Get the billing data for the transaction.
      * This includes mainly optional and some mandatory details.
      */
     protected function getBillingData()
@@ -254,87 +366,6 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
             $data['customerId'] = $this->getCustomerId();
         }
 
-        if ($card = $this->getCard()) {
-            // Billing details.
-
-            // Single billing name, first and last joined.
-            if ($card->getBillingName()) {
-                $data['billingName'] = $card->getBillingName();
-            }
-
-            // Single address, 1 and 2 joined.
-            // The hosted form provides a single line for this field, so we join with just a space.
-            // CHECKME: are either address parts multi-line? May need to convert to a single line.
-            if ($card->getBillingAddress1() || $card->getBillingAddress2()) {
-                $data['billingAddress'] = trim($card->getBillingAddress1() . ' ' . $card->getBillingAddress2());
-            }
-
-            if ($card->getBillingCity()) {
-                $data['billingCity'] = $card->getBillingCity();
-            }
-
-            if ($card->getBillingState()) {
-                $data['billingProvince'] = $card->getBillingState();
-            }
-
-            if ($card->getBillingPostcode()) {
-                $data['billingPostalCode'] = $card->getBillingPostcode();
-            }
-
-            // This is the country spelled out in full, not the ISO3166 code.
-            if ($card->getBillingCountry()) {
-                $data['billingCountry'] = $card->getBillingCountry();
-            }
-
-            if ($card->getBillingPhone()) {
-                $data['billingPhoneNumber'] = $card->getBillingPhone();
-            }
-
-            // Note: there are no separate billing and shipping email addresses.
-            if ($card->getEmail()) {
-                $data['billingEmailAddress'] = $card->getEmail();
-            }
-
-            // Shipping details.
-
-            // Single billing name, first and last joined.
-            if ($card->getShippingName()) {
-                $data['shippingName'] = $card->getShippingName();
-            }
-
-            // Single address, 1 and 2 joined.
-            // The hosted form provides a single line for this field, so we join with just a space.
-            if ($card->getShippingAddress1() || $card->getShippingAddress2()) {
-                $data['shippingAddress'] = trim($card->getShippingAddress1() . ' ' . $card->getShippingAddress2());
-            }
-
-            if ($card->getShippingCity()) {
-                $data['shippingCity'] = $card->getShippingCity();
-            }
-
-            if ($card->getShippingState()) {
-                $data['shippingProvince'] = $card->getShippingState();
-            }
-
-            if ($card->getShippingPostcode()) {
-                $data['shippingPostalCode'] = $card->getShippingPostcode();
-            }
-
-            // This is the country spelled out in full, not the ISO3166 code.
-            if ($card->getShippingCountry()) {
-                $data['shippingCountry'] = $card->getShippingCountry();
-            }
-
-            if ($card->getShippingPhone()) {
-                $data['shippingPhoneNumber'] = $card->getShippingPhone();
-            }
-
-            // Note: there are no separate billing and shipping email addresses in omnipay.
-            if ($card->getEmail()) {
-                $data['shippingEmailAddress'] = $card->getEmail();
-            }
-        }
-
         return $data;
     }
 
@@ -342,7 +373,6 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
      * Get the card data.
      * Only used for direct API mode.
      * Start date and issue number are not supported.
-     * TODO: ensure we return either the card or the token, but not both.
      */
     protected function getCardData()
     {
@@ -470,7 +500,8 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
                 // entry point can work with either, so we stick with POST.
                 $this->setMethod('POST');
 
-                // The search (aka history) API has a different entry point.
+                // The search (aka history) API has a different entry point to
+                // all the other Direct actions.
 
                 if ($this->action == 'search') {
                     $path = $this->endpointPathDirectHistory;
@@ -480,7 +511,9 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
                 break;
 
             case 'hostedpages':
-                // This entry point works with GET or POST, whichever is convenient.
+                // This entry point works with GET or POST, whichever is convenient,
+                // since this is where we will be sending the user to.
+
                 $path = $this->endpointPathHostedPages;
                 break;
 
@@ -489,6 +522,8 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
         }
 
         // Build the URL from the parts.
+        // There is a dependency on Guzzle here, which OmniPay uses, but may be a
+        // bit of an assumption in the longer term.
 
         $url = new Url($this->endpointScheme, $domain);
         $url->setPath($path);

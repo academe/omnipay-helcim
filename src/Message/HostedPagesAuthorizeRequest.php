@@ -24,7 +24,12 @@ class HostedPagesAuthorizeRequest extends AbstractRequest
         // The hosted pages option has no return URL (that is coded into the form in advance) and has
         // no cancel URL. There is also no callback URL to feed the results in through a back-channel.
 
-        $data = array_merge($data, $this->getBillingData());
+        $data = array_merge(
+            $data,
+            $this->getBillingData(),
+            $this->getBillingAddressData(),
+            $this->getShippingAddresszData(),
+        );
 
         // Waiting for https://github.com/omnipay/common/issues/11 fix.
 
@@ -38,15 +43,15 @@ class HostedPagesAuthorizeRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        return $this->response = $this->createResponse($data, $this->getEndpoint(), $this->getMethod());
+        return $this->response = $this->createResponse($data);
     }
 
     /**
      * Create the response object.
      */
-    public function createResponse($data, $endpoint, $method)
+    public function createResponse($data)
     {
-        return new HostedPagesResponse($this, $data, $endpoint, $method);
+        return new HostedPagesResponse($this, $data);
     }
 }
 
