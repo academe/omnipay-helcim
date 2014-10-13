@@ -418,20 +418,16 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
             $data['cardF4l4'] = $this->getCardF4l4();
         } else {
             if ($card = $this->getCard()) {
-                // Make sure all parts of the card are set.
+                // Make sure all necessary parts of the card are set.
+                // Checks 'number', 'expiryMonth' and 'expiryYear' and will not go
+                // any further if they are not set.
                 $card->validate();
 
-                if ($card->getNumber()) {
-                    $data['cardNumber'] = $card->getNumber();
-                }
+                // Mandatory fields.
+                $data['cardNumber'] = $card->getNumber();
+                $data['expiryDate'] = $card->getExpiryDate('my');
 
-                // CHECKME: will this work if the year is '00'?
-                // Not that '00' will happen for a while, but good just to be sure.
-
-                if ($card->getExpiryMonth() && $card->getExpiryYear()) {
-                    $data['expiryDate'] = $card->getExpiryDate('my');
-                }
-
+                // Optional card fields.
                 $getCvv = $card->getCvv();
                 if (isset($getCvv) && $getCvv != '') {
                     $data['cvv'] = $getCvv;
