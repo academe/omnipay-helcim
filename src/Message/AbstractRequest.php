@@ -77,6 +77,26 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
         return $this->getParameter('allowZeroAmount');
     }
 
+    public function setCardholderAddress($value)
+    {
+        return $this->setParameter('cardholderAddress', $value);
+    }
+
+    public function getCardholderAddress()
+    {
+        return $this->getParameter('cardholderAddress');
+    }
+
+    public function setCardholderPostalCode($value)
+    {
+        return $this->setParameter('cardholderPostalCode', $value);
+    }
+
+    public function getCardholderPostalCode()
+    {
+        return $this->getParameter('cardholderPostalCode');
+    }
+
     // OmniPay has set/getToken() already. Can we use that?
     // Perhaps it can be used to accept the "gateway-token|form-token" or something?
 
@@ -505,6 +525,24 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
         }
 
         return $cart;
+    }
+
+    /**
+     * Get the AVS (Address Validation Service) fields.
+     */
+    protected function getAvsData()
+    {
+        $data = array();
+
+        if ($this->getCardholderAddress()) {
+            $data['cardholderAddress'] = $this->getCardholderAddress();
+        }
+
+        if ($this->getCardholderPostalCode()) {
+            $data['cardholderPostalCode'] = $this->getCardholderPostalCode();
+        }
+
+        return $data;
     }
 
     /**
