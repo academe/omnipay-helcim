@@ -68,7 +68,8 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
 
     public function setAllowZeroAmount($value)
     {
-        return $this->setParameter('allowZeroAmount', ! empty($value) ? '1' : '0');
+        // Evaluate to true/false
+        return $this->setParameter('allowZeroAmount', ! empty($value));
     }
 
     public function getAllowZeroAmount()
@@ -137,6 +138,18 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
     public function getCvvIndicator()
     {
         return $this->getParameter('cvvIndicator');
+    }
+
+    /**
+     * Workaround for https://github.com/thephpleague/omnipay-common/issues/13
+     */
+    public function setAmount($value)
+    {
+        if (is_float($value) && $value === 0.0) {
+            $value = '0.00';
+        }
+
+        parent::setAmount($value);
     }
 
     // cardoken and carF4l4 can be sent as an alternative to the
@@ -352,7 +365,12 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
         $data['amount'] = $this->getAmount();
 
         if ($this->getAllowZeroAmount()) {
-            $data['allowZeroAmount'] = $this->getAllowZeroAmount();
+            $data['allowZeroAmount'] = '1';
+        } else {
+            // A zero amount without this flag set will be invalid.
+            if (isset($data['amount']) && (float)$data['amount'] === 0.0) {
+                throw new InvalidRequestException("The amount must not be zero without allowZeroAmount being set");
+            }
         }
 
         if ($this->getDescription()) {
