@@ -91,8 +91,16 @@ abstract class AbstractResponse extends OmnipayAbstractResponse
         return isset($this->data['cardType']) ? $this->data['cardType'] : null;
     }
 
-    // CHECKME: the "code" is the approval code?
+    // The raw response code.
     public function getCode()
+    {
+        return isset($this->data['response']) ? $this->data['response'] : null;
+    }
+
+    /**
+     * The approval code from the card issuer.
+     */
+    public function getApprovalCode()
     {
         return isset($this->data['approvalCode']) ? $this->data['approvalCode'] : null;
     }
