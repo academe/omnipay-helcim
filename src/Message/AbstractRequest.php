@@ -5,6 +5,7 @@ namespace Omnipay\Helcim\Message;
 use Omnipay\Omnipay;
 use Omnipay\Common\Message\AbstractRequest as OmnipayAbstractRequest;
 use Guzzle\Http\Url;
+use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
  * Helcim Abstract Request
@@ -42,9 +43,7 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
     protected $mode = 'direct';
 
     /**
-     * TODO: split these methods off to other layers of abstraction to group the
-     * parameters needed for payment and authorisation transactions, from the
-     * simpler transactions that don't need any customer and card details.
+     * 
      */
 
     public function setDeveloperMode($value)
@@ -65,6 +64,16 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
     public function getMerchantId()
     {
         return $this->getParameter('merchantId');
+    }
+
+    public function setAllowZeroAmount($value)
+    {
+        return $this->setParameter('allowZeroAmount', ! empty($value) ? '1' : '0');
+    }
+
+    public function getAllowZeroAmount()
+    {
+        return $this->getParameter('allowZeroAmount');
     }
 
     // OmniPay has set/getToken() already. Can we use that?
@@ -341,6 +350,10 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
         $data = array();
 
         $data['amount'] = $this->getAmount();
+
+        if ($this->getAllowZeroAmount()) {
+            $data['allowZeroAmount'] = $this->getAllowZeroAmount();
+        }
 
         if ($this->getDescription()) {
             $data['comments'] = $this->getDescription();
