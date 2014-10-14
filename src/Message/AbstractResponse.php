@@ -75,11 +75,28 @@ abstract class AbstractResponse extends OmnipayAbstractResponse
 
     /**
      * The card expiry date, in MMYY format.
-     * TODO: provide getMonth() and getYear() to split this up.
      */
     public function getExpiryDate()
     {
         return isset($this->data['expiryDate']) ? $this->data['expiryDate'] : null;
+    }
+
+    /**
+     * The card expiry date, in MMYY format; just return the month.
+     */
+    public function getExpiryMonth()
+    {
+        $date = $date = $this->getExpiryDate();
+        return ($date && strlen($date) === 4) ? substr($date, 0, 2) : null;
+    }
+
+    /**
+     * The card expiry date, in MMYY format; just return the year.
+     */
+    public function getExpiryYear()
+    {
+        $date = $date = $this->getExpiryDate();
+        return ($date && strlen($date) === 4) ? substr($date, 2, 2) : null;
     }
 
     /**
