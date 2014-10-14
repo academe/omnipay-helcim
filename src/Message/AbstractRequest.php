@@ -592,6 +592,7 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
 
         $url = new Url($this->endpointScheme, $domain);
         $url->setPath($path);
+
         if ($this->getMethod() == 'GET') {
             $url->setQuery($this->getData());
         }

@@ -53,10 +53,9 @@ class DirectTransactionHistoryRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        $method = $this->getMethod();
         $endpoint = $this->getEndpoint();
 
-        if ($method == 'GET') {
+        if ($this->getMethod() == 'GET') {
             // Send a GET request.
             // The endpoint will already have GET parameters added.
 

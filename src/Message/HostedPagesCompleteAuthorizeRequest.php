@@ -121,8 +121,8 @@ class HostedPagesCompleteAuthorizeRequest extends AbstractRequest
         $gateway->setDeveloperMode($this->getDeveloperMode());
         $gateway->setTestMode($this->getTestMode());
 
-        // Need to be able to support POST too, but it's broken at the moment.
-        $gateway->setMethod('get');
+        // POST keeps things hidden from caches.
+        $gateway->setMethod('POST');
 
         // Get the transaction
         $fetch_response = $gateway

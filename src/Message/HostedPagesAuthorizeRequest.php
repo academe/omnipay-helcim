@@ -28,7 +28,8 @@ class HostedPagesAuthorizeRequest extends AbstractRequest
             $data,
             $this->getBillingData(),
             $this->getBillingAddressData(),
-            $this->getShippingAddresszData(),
+            $this->getShippingAddressData(),
+            $this->getAvsData()
         );
 
         // Waiting for https://github.com/omnipay/common/issues/11 fix.
