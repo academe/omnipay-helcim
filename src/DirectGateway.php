@@ -100,6 +100,14 @@ class DirectGateway extends AbstractCommonGateway
     }
 
     /**
+     * For handling a createCard action.
+     */
+    public function createCard(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Helcim\Message\DirectCreateCardRequest', $parameters);
+    }
+
+    /**
      * To fetch a single transaction.
      * Fetch by transactionId or orderId. Both will be unique.
      */
