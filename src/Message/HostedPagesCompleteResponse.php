@@ -2,7 +2,7 @@
 
 namespace Omnipay\Helcim\Message;
 
-use Omnipay\Common\Message\AbstractResponse;
+//use Omnipay\Common\Message\AbstractResponse;
 
 /**
 * Helcim Hosted Pages Complete Authorize Response

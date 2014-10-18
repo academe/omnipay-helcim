@@ -14,13 +14,13 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * The search string looks at billing details, the transactionId and the orderId.
  */
 
-class DirectTransactionHistoryRequest extends AbstractRequest
+class DirectTransactionHistoryRequest extends DirectFetchTransactionRequest
 {
     protected $action = 'search';
     protected $mode = 'direct';
 
     /**
-     * Collect the data togethee that will be sent to the API.
+     * Collect the data together that will be sent to the API.
      * We can now include the orderId or the transactionId in the search.
      */
     public function getData()
@@ -29,47 +29,11 @@ class DirectTransactionHistoryRequest extends AbstractRequest
 
         $data = $this->getDirectBaseData();
 
-        // If a date has been given, then search on that.
-        // The transaction history search works on date OR search string, not both.
-        // The date must be in YYYYMMDD format.
-        // TODO: validate the data string format.
-        // TODO: accept other data types for the date and format it appropriately.
+        // Add in the search fields.
 
-        if ($this->getTransactionDate()) {
-            $data['date'] = $this->getTransactionDate();
-        } elseif ($this->getSearch()) {
-            $data['search'] = $this->getSearch();
-        } else {
-            // No valid search parameter provided.
-            throw new InvalidRequestException('No search criteria provided. Require date or search string.');
-        }
+        $data = $this->getSearchData($data);
 
         return $data;
-    }
-
-    /**
-     * Send the data to the remote API service.
-     * This service will work with GET or POST.
-     */
-    public function sendData($data)
-    {
-        $endpoint = $this->getEndpoint();
-
-        if ($this->getMethod() == 'GET') {
-            // Send a GET request.
-            // The endpoint will already have GET parameters added.
-
-            $httpResponse = $this->httpClient->get($endpoint)->send();
-        } else {
-            // Send a POST request.
-            // The endpoint for a POST will not have GET parameters on the URL.
-
-            $httpResponse = $this->httpClient->post($endpoint, [], $data)->send();
-        }
-
-        // Return a SimpleXMLElement containing a list of transactions.
-
-        return $this->createResponse($httpResponse->xml());
     }
 
     /**

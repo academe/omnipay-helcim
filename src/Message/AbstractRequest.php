@@ -207,7 +207,7 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
     public function setMethod($method)
     {
         // Normalise to GET or POST.
-        $method = strtoupper($method) == 'GET' ? 'GET' : 'POST';
+        $method = (strtoupper($method) === 'GET' ? 'GET' : 'POST');
 
         return $this->setParameter('method', $method);
     }
@@ -563,14 +563,14 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
             case 'direct':
                 // The Direct entry point works only with POST, and the search
                 // entry point can work with either, so we stick with POST.
-                $this->setMethod('POST');
 
                 // The search (aka history) API has a different entry point to
-                // all the other Direct actions.
+                // all the other Direct actions. It also supports both GET and POST.
 
                 if ($this->action == 'search') {
                     $path = $this->endpointPathDirectHistory;
                 } else {
+                    $this->setMethod('POST');
                     $path = $this->endpointPathDirectActions;
                 }
                 break;

@@ -15,7 +15,7 @@ abstract class AbstractCommonGateway extends AbstractGateway
         return array(
             'merchantId' => '',
             'gatewayToken' => '',
-            'method' => array('GET', 'POST'),
+            'method' => array('POST', 'GET'),
             'testMode' => array(0, 1),
             'developerMode' => array(0, 1),
         );

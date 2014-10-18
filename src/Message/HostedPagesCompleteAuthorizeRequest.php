@@ -124,10 +124,10 @@ class HostedPagesCompleteAuthorizeRequest extends AbstractRequest
             ->send();
 
         // Get the transaction details (from Helcim) as an array.
-        $fetch_transaction = $fetch_response->getTransactionArray();
+        $fetch_transaction = $fetch_response->getTransaction();
 
         // If there is no transaction, then this is an error.
-        if (empty($fetch_transaction)) {
+        if ( ! $fetch_response->isSuccessful()) {
             throw new InvalidRequestException(sprintf('Cannot retrieve transaction (%s)', $fetch_response->getErrorMessage()));
         }
 
