@@ -3,7 +3,6 @@
 namespace Omnipay\Helcim\Message;
 
 use Omnipay\Common\Message\RequestInterface;
-use SimpleXMLElement;
 
 /**
  * A single historic transaction pulled back from Helcim History.
@@ -21,18 +20,24 @@ class DirectFetchTransactionResponse extends AbstractResponse
     protected $error = '';
 
     /**
-     * 
+     * Accept a single transaction as an XML document, an XML error
+     * or false if there are no transactions that can be passed in.
      */
     public function __construct(RequestInterface $request, $data)
     {
         if ($data === false) {
+            // No matches just warrants an error message. It is not
+            // an exception at this point.
             $this->setErrorMessage('No match found.');
+        } elseif (isset($data->error)) {;
+            // Check if this is an XML error.
+            $this->setErrorMessage((string)$data->error);
         }
 
         // Transfer all transaction elements (fields) to the data property.
-        if (is_a($data, 'SimpleXMLElement')) {
+        if ($this->isSuccessful() && is_a($data, 'SimpleXMLElement')) {
             // The amount field needs special handling, to remove the currency
-            // and thousands separator symbols.
+            // and thousands separator symbols that the API adds in.
 
             // Save the formatted amount for reference.
             $data->display_amount = $data->amount;
@@ -111,9 +116,11 @@ class DirectFetchTransactionResponse extends AbstractResponse
         return $this->error;
     }
 
+    /*
     public function getCard()
     {
         return isset($this->data['card']) ? $this->data['card'] : null;
     }
+    */
 }
 

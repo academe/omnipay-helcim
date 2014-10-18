@@ -14,7 +14,6 @@ use SimpleXMLElement;
  * The result will be zero or more transactions. It is not clear if a limit
  * can be set, or is defined, for the number of transactions that will be
  * returned in a single call to use of DirectSearchRequest.
- * TODO: make this an iterator and return each transaction as an DirectFetchTransactionResponse object.
  */
 
 class DirectTransactionHistoryResponse extends DirectFetchTransactionResponse implements IteratorAggregate, Countable
@@ -30,6 +29,11 @@ class DirectTransactionHistoryResponse extends DirectFetchTransactionResponse im
     public function __construct($request, SimpleXMLElement $data)
     {
         $this->request = $request;
+
+        // Check if there was an API error first.
+        if (isset($data->error)) {
+            $this->setErrorMessage((string)$data->error);
+        }
 
         if ($this->isSuccessful()) {
             $transaction_count = $data->transactions->count();
