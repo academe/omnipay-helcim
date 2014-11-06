@@ -40,22 +40,27 @@ No, none yet. If you can help, then please do. Would be much appreciated.
 
 Functionality still to be implemented:
 
-* [ ] Direct Address Verification (Note 2)
+* [x] Direct Address Verification (Note 2)
 * [x] Direct Authorization
 * [x] Direct Capture
 * [x] Direct Purchase
 * [x] Direct Refund
 * [x] Direct Void
-* [ ] Transaction History
+* [ ] Direct Recuring Request
+* [x] Transaction History
   * [x] Fetch One
-  * [ ] Fetch List (Note 1)
+  * [x] Fetch List (Note 1)
 * [x] Hosted Pages Authorize
 * [x] Hosted Pages Purchase
 * [x] Access to Hosted Pages custom fields
 
 Notes:
 
-1. Lists of transactions can be fetched, but it returns an array of XML objects at present.
-   That is not going to be as useful as it could be. Maybe we need a transaction object.
-2. It is not clear whether address verification can be run by itself, or whether it runs as
-   an added (optional) benefit to the authorize and purchase actions.
+1. ~~Lists of transactions can be fetched, but it returns an array of XML objects at present.
+   That is not going to be as useful as it could be. Maybe we need a transaction object.~~
+2. ~~It is not clear whether address verification can be run by itself, or whether it runs as
+   an added (optional) benefit to the authorize and purchase actions.~~ Address verification is
+   not a standalone service. It is an additional field that can be passed in with other
+   authorisation-based transactions to request additional checks to be performed on the
+   transaction. This returns additional flags indicating the address verification status, but
+   so far as I know, does not affect the authorisation result.
