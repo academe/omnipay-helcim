@@ -51,4 +51,3 @@ class HostedPagesResponse extends AbstractResponse implements RedirectResponseIn
         return $this->getData();
     }
 }
-

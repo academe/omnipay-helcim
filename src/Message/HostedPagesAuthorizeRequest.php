@@ -55,4 +55,3 @@ class HostedPagesAuthorizeRequest extends AbstractRequest
         return new HostedPagesResponse($this, $data);
     }
 }
-

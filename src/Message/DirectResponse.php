@@ -61,4 +61,3 @@ class DirectResponse extends AbstractResponse implements ResponseInterface
         return isset($this->data['responseMessage']) ? $this->data['responseMessage'] : null;
     }
 }
-

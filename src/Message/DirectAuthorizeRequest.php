@@ -62,4 +62,3 @@ class DirectAuthorizeRequest extends AbstractRequest
         return $this->response = new DirectResponse($this, $data);
     }
 }
-

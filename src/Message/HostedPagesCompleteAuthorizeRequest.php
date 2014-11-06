@@ -205,4 +205,3 @@ class HostedPagesCompleteAuthorizeRequest extends AbstractRequest
         return $this->response = new HostedPagesCompleteResponse($this, $data);
     }
 }
-

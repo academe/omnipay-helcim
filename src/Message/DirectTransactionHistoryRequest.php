@@ -44,4 +44,3 @@ class DirectTransactionHistoryRequest extends DirectFetchTransactionRequest
         return $this->response = new DirectTransactionHistoryResponse($this, $data);
     }
 }
-

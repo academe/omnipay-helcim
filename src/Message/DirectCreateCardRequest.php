@@ -20,4 +20,3 @@ class DirectCreateCardRequest extends DirectAuthorizeRequest
         return parent::getData();
     }
 }
-

@@ -61,4 +61,3 @@ class DirectTransactionHistoryResponse extends DirectFetchTransactionResponse im
         return count($this->transactions);
     }
 }
-

@@ -600,4 +600,3 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
         return $url;
     }
 }
-

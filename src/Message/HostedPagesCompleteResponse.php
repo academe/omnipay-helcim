@@ -48,4 +48,3 @@ class HostedPagesCompleteResponse extends AbstractResponse
         return isset($this->data['custom']) ? $this->data['custom'] : array();
     }
 }
-

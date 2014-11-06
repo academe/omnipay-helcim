@@ -81,4 +81,3 @@ abstract class AbstractCommonGateway extends AbstractGateway
     }
 
 }
-

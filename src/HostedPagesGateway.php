@@ -74,4 +74,3 @@ class HostedPagesGateway extends AbstractCommonGateway
         return $this->createRequest('\Omnipay\Helcim\Message\HostedPagesCompleteAuthorizeRequest', $parameters);
     }
 }
-

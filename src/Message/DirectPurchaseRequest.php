@@ -9,4 +9,3 @@ class DirectPurchaseRequest extends DirectAuthorizeRequest
 {
     protected $action = 'purchase';
 }
-

@@ -144,4 +144,3 @@ abstract class AbstractResponse extends OmnipayAbstractResponse
         return isset($this->data['cvvResponse']) ? $this->data['cvvResponse'] : null;
     }
 }
-

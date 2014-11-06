@@ -27,4 +27,3 @@ class DirectCompleteRequest extends AbstractRequest
     {
     }
 }
-

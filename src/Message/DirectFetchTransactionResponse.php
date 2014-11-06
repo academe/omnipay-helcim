@@ -123,4 +123,3 @@ class DirectFetchTransactionResponse extends AbstractResponse
     }
     */
 }
-

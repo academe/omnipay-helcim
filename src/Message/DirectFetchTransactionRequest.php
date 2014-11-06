@@ -165,4 +165,3 @@ class DirectFetchTransactionRequest extends AbstractRequest implements RequestIn
     }
 
 }
-
