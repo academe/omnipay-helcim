@@ -77,6 +77,8 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
         return $this->getParameter('allowZeroAmount');
     }
 
+    // The cardHolder Address and PostalCode feeds into address verification services.
+
     public function setCardholderAddress($value)
     {
         return $this->setParameter('cardholderAddress', $value);
@@ -185,6 +187,9 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
     {
         return $this->getParameter('cardToken');
     }
+
+    // The card first four and last four digits are needed for taking payments on
+    // a tokenised card.
 
     public function setCardF4l4($value)
     {

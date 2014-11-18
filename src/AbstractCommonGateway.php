@@ -3,6 +3,7 @@
 namespace Omnipay\Helcim;
 
 use Omnipay\Common\AbstractGateway;
+use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
  * Helcim Gateway Driver methods common to (shared between) Hosted Page
@@ -13,7 +14,7 @@ abstract class AbstractCommonGateway extends AbstractGateway
     public function getDefaultParameters()
     {
         return array(
-            'merchantId' => '',
+            'merchantId' => 0,
             'gatewayToken' => '',
             'method' => array('POST', 'GET'),
             'testMode' => array(0, 1),
@@ -23,11 +24,12 @@ abstract class AbstractCommonGateway extends AbstractGateway
 
     /**
      * The Merchant ID is always needed.
+     * The numeric check seems to fail the test suite, which sends in long hexadecimal strings.
      */
     public function setMerchantId($merchant_id)
     {
         if ( ! is_numeric($merchant_id)) {
-            throw new InvalidRequestException('Merchant ID must be numeric');
+            throw new InvalidRequestException(sprintf('Merchant ID must be numeric (%s)', $merchant_id));
         }
 
         return $this->setParameter('merchantId', $merchant_id);

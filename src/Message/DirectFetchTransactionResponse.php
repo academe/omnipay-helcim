@@ -17,7 +17,7 @@ class DirectFetchTransactionResponse extends AbstractResponse
     /**
      * The error message, if any.
      */
-    protected $error = '';
+    protected $error_message = '';
 
     /**
      * Accept a single transaction as an XML document, an XML error
@@ -29,9 +29,9 @@ class DirectFetchTransactionResponse extends AbstractResponse
             // No matches just warrants an error message. It is not
             // an exception at this point.
             $this->setErrorMessage('No match found.');
-        } elseif (isset($data->error)) {;
+        } elseif (isset($data->error_message)) {;
             // Check if this is an XML error.
-            $this->setErrorMessage((string)$data->error);
+            $this->setErrorMessage((string)$data->error_message);
         }
 
         // Transfer all transaction elements (fields) to the data property.
@@ -67,19 +67,6 @@ class DirectFetchTransactionResponse extends AbstractResponse
                 */
 
                 $this->data[$element_name] = (string)$element;
-
-                /*
-                // Omnipay (for now) supports only one email address, so give it the billing
-                // or the shipping email, whichever is set first.
-                if ($element_name == 'billingEmail') $this->data['email'] = (string)$element;
-                if ($element_name == 'shippingEmail' && empty($this->data['email'])) $this->data['email'] = (string)$element;
-
-                // Split the expiry date into month and year.
-                if ($element_name == 'expiryDate' && strlen($element_name) == 4) {
-                    $this->data['expiryMonth'] = substr((string)$element, 0, 2);
-                    $this->data['expiryYear'] = substr((string)$element, 2, 2);
-                }
-                */
             }
 
             // Recreate a card object, for convenience.
@@ -95,7 +82,7 @@ class DirectFetchTransactionResponse extends AbstractResponse
      */
     public function isSuccessful()
     {
-        return (empty($this->error));
+        return (empty($this->error_message));
     }
 
     /**
@@ -106,14 +93,14 @@ class DirectFetchTransactionResponse extends AbstractResponse
         return $this->data;
     }
 
-    public function setErrorMessage($error)
+    public function setErrorMessage($error_message)
     {
-        $this->error = $error;
+        $this->error_message = $error_message;
     }
 
     public function getErrorMessage()
     {
-        return $this->error;
+        return $this->error_message;
     }
 
     /*
