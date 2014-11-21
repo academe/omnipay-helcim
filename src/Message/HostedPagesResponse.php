@@ -14,6 +14,7 @@ use Omnipay\Common\Message\RedirectResponseInterface;
  */
 class HostedPagesResponse extends AbstractResponse implements RedirectResponseInterface
 {
+    // CHECKME: is this used?
     protected $redirectUrl;
 
     public function __construct(RequestInterface $request, $data)

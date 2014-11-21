@@ -11,13 +11,12 @@ class HostedPagesGatewayTest extends GatewayTestCase
     protected $voidOptions;
 
     // Get a random value for a parameter.
+    // Some setters have validation and some normalisation applied to them,
+    // so we can't pass in the same uniqid to every parameter and expect the
+    // same value to come back out, even if it passes the validation.
 
     protected function getParameterValue($key = '')
     {
-        // Some setters have validation and some normalisation applied to them,
-        // so we can't pass in the same uniqid to every parameter and expect the
-        // same value to come back out.
-
         if ($key == 'merchantId') {
             // The merchantId must always be numeric.
             $value = mt_rand(32767, mt_getrandmax());
@@ -140,12 +139,21 @@ class HostedPagesGatewayTest extends GatewayTestCase
         }
     }
 
-    /*public function testAuthorizeSuccess()
+    // Just not sure how this would be tested.
+    // We "send" a request, which just packages the data up. Then we "complete" the request
+    // which does a redirect to Helcim. Sending the request involves no communication with Helcim.
+
+    public function testAuthorizeSuccess()
     {
-        $this->setMockHttpResponse('HelcimHostedSuccess.txt');
+        //$this->setMockHttpResponse('HelcimHostedSuccess.txt');
         $response = $this->gateway->authorize($this->purchaseOptions)->send();
-        $this->assertTrue($response->isSuccessful());
-        $this->assertSame('2184493132', $response->getTransactionReference());
-        $this->assertSame('This transaction has been approved.', $response->getMessage());
-    }*/
+
+        // Not successful because a redirect is needed.
+        $this->assertFalse($response->isSuccessful());
+
+        $this->assertTrue($response->isRedirect());
+
+        //$this->assertSame('2184493132', $response->getTransactionReference());
+        //$this->assertSame('This transaction has been approved.', $response->getMessage());
+    }
 }
