@@ -10,26 +10,6 @@ class HostedPagesGatewayTest extends GatewayTestCase
 {
     protected $voidOptions;
 
-    // Get a random value for a parameter.
-    // Some setters have validation and some normalisation applied to them,
-    // so we can't pass in the same uniqid to every parameter and expect the
-    // same value to come back out, even if it passes the validation.
-
-    protected function getParameterValue($key = '')
-    {
-        if ($key == 'merchantId') {
-            // The merchantId must always be numeric.
-            $value = mt_rand(32767, mt_getrandmax());
-        } elseif ($key == 'method') {
-            // The method must be either GET or POST.
-            $value = (rand(0, 1) ? 'POST' : 'GET');
-        } else {
-            $value = uniqid();
-        }
-
-        return $value;
-    }
-
     public function setUp()
     {
         parent::setUp();
@@ -49,6 +29,26 @@ class HostedPagesGatewayTest extends GatewayTestCase
         $this->voidOptions = array(
             'transactionReference' => '12345',
         );
+    }
+
+    // Get a random value for a parameter.
+    // Some setters have validation and some normalisation applied to them,
+    // so we can't pass in the same uniqid to every parameter and expect the
+    // same value to come back out, even if it passes the validation.
+
+    protected function getParameterValue($key = '')
+    {
+        if ($key == 'merchantId') {
+            // The merchantId must always be numeric.
+            $value = mt_rand(32767, mt_getrandmax());
+        } elseif ($key == 'method') {
+            // The method must be either GET or POST.
+            $value = (rand(0, 1) ? 'POST' : 'GET');
+        } else {
+            $value = uniqid();
+        }
+
+        return $value;
     }
 
     public function testDefaultParametersHaveMatchingMethods()
@@ -139,21 +139,55 @@ class HostedPagesGatewayTest extends GatewayTestCase
         }
     }
 
-    // Just not sure how this would be tested.
     // We "send" a request, which just packages the data up. Then we "complete" the request
-    // which does a redirect to Helcim. Sending the request involves no communication with Helcim.
+    // which does a redirect to Helcim. Sending the request involves no communication with Helcim,
+    // and so no HTTP messages to be mocked.
 
     public function testAuthorizeSuccess()
     {
-        //$this->setMockHttpResponse('HelcimHostedSuccess.txt');
         $response = $this->gateway->authorize($this->purchaseOptions)->send();
 
-        // Not successful because a redirect is needed.
+        // Not successful because a redirect would follow next.
         $this->assertFalse($response->isSuccessful());
 
         $this->assertTrue($response->isRedirect());
+    }
 
-        //$this->assertSame('2184493132', $response->getTransactionReference());
-        //$this->assertSame('This transaction has been approved.', $response->getMessage());
+    // Check all the URLs that vary with the testing flag, developer flag,
+    // and the method parameter.
+
+    public function testAuthorizeUrls()
+    {
+        // TODO: also test with GET. The URLs will be much longer.
+        $this->gateway->setMethod('POST');
+
+        $this->gateway->setTestMode(true);
+        $this->gateway->setDeveloperMode(true);
+        $response = $this->gateway->authorize($this->purchaseOptions)->send();
+        $this->assertSame((string)$response->getRedirectUrl(), 'https://gatewaytest.helcim.com/hosted/');
+
+        $this->gateway->setTestMode(false);
+        $this->gateway->setDeveloperMode(true);
+        $response = $this->gateway->authorize($this->purchaseOptions)->send();
+        $this->assertSame((string)$response->getRedirectUrl(), 'https://gatewaytest.helcim.com/hosted/');
+
+        $this->gateway->setTestMode(true);
+        $this->gateway->setDeveloperMode(false);
+        $response = $this->gateway->authorize($this->purchaseOptions)->send();
+        $this->assertSame((string)$response->getRedirectUrl(), 'https://gateway.helcim.com/hosted/');
+
+        $this->gateway->setTestMode(false);
+        $this->gateway->setDeveloperMode(false);
+        $response = $this->gateway->authorize($this->purchaseOptions)->send();
+        $this->assertSame((string)$response->getRedirectUrl(), 'https://gateway.helcim.com/hosted/');
+    }
+
+    // To complete the authorize, data POSTed back by Helcim will contain the
+    // completed transaction. To validate the data, a call is made to the Direct
+    // API to compare the details. Some consideration is needed on how this
+    // will be mocked.
+
+    public function testCompleteAuthorizeXxx()
+    {
     }
 }
