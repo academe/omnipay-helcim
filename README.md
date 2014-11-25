@@ -53,6 +53,7 @@ Functionality still to be implemented:
 * [x] Hosted Pages Authorize
 * [x] Hosted Pages Purchase
 * [x] Access to Hosted Pages custom fields
+* [ ] Helcim.js Payment/Capture Card Details
 
 Notes:
 
