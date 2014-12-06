@@ -13,7 +13,8 @@ There are two modes of operation:
 
 * **JavaScript mode** (`Helcim_JS`), where credit card details are taken in a form on your site, but submitted
    direct to Helcim from the form using AJAX. No customer leaves your site.
-   Your site does not need PCI registration, since the CC details are not submitted direct to your site (it is
+   Your site does not need PCI registration (strictly, it reduces the PCI compliance scope, so there is no room
+   for complacancy), since the CC details are not submitted direct to your site (it is
    important that the form is constructed correctly to ensure this does not inadvertently happen.
    This mode was launched in October 2014.
 * **Direct mode** (`Helcim_Direct`), where credit card details are taken on your site, and no customer leaves your site.
