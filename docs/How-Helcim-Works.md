@@ -102,7 +102,7 @@ When connecting to the Helcim forms or API, two identication parts are needed:
 The Merchant ID is a numeric value and unque to your account. The token varies depending on how
 it is used.
 
-The API has a single token defined for it. You would never allow end users to see that token, as
+The Direct mode API has a single token defined for it. You would never allow end users to see that token, as
 it gives full access to the API and the complete history of your transactions.
 It is just used for back-end operations. This token can be renewed
 any time there is a suspician it may have been compromised.
