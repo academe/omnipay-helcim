@@ -16,6 +16,7 @@ There are two modes of operation:
    Your site does not need PCI registration (strictly, it reduces the PCI compliance scope, so there is no room
    for complacancy), since the CC details are not submitted direct to your site (it is
    important that the form is constructed correctly to ensure this does not inadvertently happen.
+   Version 1 of this interface supports only *payment* (not authorisation).
    This mode was launched in October 2014.
 * **Direct mode** (`Helcim_Direct`), where credit card details are taken on your site, and no customer leaves your site.
   You will need to be PCI-registered to use this mode. Note that Helcim do not call this mode "Direct".
