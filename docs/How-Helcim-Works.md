@@ -123,9 +123,16 @@ Hosted Pages as the payment gateway for an e-commerce shop needs additional chec
 Direct API, that are not obvious (certainly not highlighted in the documentation), but are covered
 by this driver.
 
+For the above reasons, I would recomment only using the Hosted Pages mode for authorisation and not
+for taking full payments if used with a shop. I believe in some parts of the US, this would be a
+requirement (the card cannot be charged until the items are shipped) but that is not always the
+case in many other countries.
+
 I have no comments on the Direct mode as I have not attempted to use that yet. The Direct mode
 would need your site to be PCI compliant and registered, which is a whole other headeache that
 is often best avoided.
 
 With both modes, you *do* need a SSL certificate on your site, regardless of what the documentation
 says.
+
+The JavaScript mode is relatively new, and on the TODO list to implement.
