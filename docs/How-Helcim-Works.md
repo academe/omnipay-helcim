@@ -11,6 +11,13 @@ the form, such as customer address, names, basket detaill, the POST is more appr
 
 There are two modes of operation:
 
+* **JavaScript mode** (`Helcim_JS`), where credit card details are taken in a form on your site, but submitted
+   direct to Helcim from the form using AJAX. No customer leaves your site.
+   Your site does not need PCI registration (strictly, it reduces the PCI compliance scope, so there is no room
+   for complacancy), since the CC details are not submitted direct to your site (it is
+   important that the form is constructed correctly to ensure this does not inadvertently happen.
+   Version 1 of this interface supports only *payment* (not authorisation).
+   This mode was launched in October 2014.
 * **Direct mode** (`Helcim_Direct`), where credit card details are taken on your site, and no customer leaves your site.
   You will need to be PCI-registered to use this mode. Note that Helcim do not call this mode "Direct".
   This is their unnamed original API mode. It has been named "Direct" here to distininguish it from the
@@ -97,7 +104,7 @@ When connecting to the Helcim forms or API, two identication parts are needed:
 The Merchant ID is a numeric value and unque to your account. The token varies depending on how
 it is used.
 
-The API has a single token defined for it. You would never allow end users to see that token, as
+The Direct mode API has a single token defined for it. You would never allow end users to see that token, as
 it gives full access to the API and the complete history of your transactions.
 It is just used for back-end operations. This token can be renewed
 any time there is a suspician it may have been compromised.
@@ -118,9 +125,16 @@ Hosted Pages as the payment gateway for an e-commerce shop needs additional chec
 Direct API, that are not obvious (certainly not highlighted in the documentation), but are covered
 by this driver.
 
+For the above reasons, I would recomment only using the Hosted Pages mode for authorisation and not
+for taking full payments if used with a shop. I believe in some parts of the US, this would be a
+requirement (the card cannot be charged until the items are shipped) but that is not always the
+case in many other countries.
+
 I have no comments on the Direct mode as I have not attempted to use that yet. The Direct mode
 would need your site to be PCI compliant and registered, which is a whole other headeache that
 is often best avoided.
 
 With both modes, you *do* need a SSL certificate on your site, regardless of what the documentation
 says.
+
+The JavaScript mode is relatively new, and on the TODO list to implement.
