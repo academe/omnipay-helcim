@@ -84,7 +84,7 @@ class HostedPagesCompleteAuthorizeRequest extends AbstractRequest
      * We won't be doing any validation on custom fields. It is not clear whether they are
      * only sent by the form, or stored on the account in the transaction too.
      *
-     * @raises \InvalidRequestException
+     * @raises \InvalidRequestException (TODO: there are OmniPay exceptions we can use here)
      */
     public function getData()
     {
@@ -147,7 +147,7 @@ class HostedPagesCompleteAuthorizeRequest extends AbstractRequest
             if (isset($posted_transaction[$hash_parameter])) $posted_string .= ':' . $posted_transaction[$hash_parameter];
 
             // The action ("type" of transaction) won't be included in the POSTed data, so we add it in.
-            // For this to work, the application needs to know whether to call CompleteAuthorize()
+            // For this to work, the application needs to appropriately call CompleteAuthorize()
             // or CompletePurchase().
 
             if ($hash_parameter === 'type') {
