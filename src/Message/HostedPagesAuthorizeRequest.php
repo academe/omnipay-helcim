@@ -10,6 +10,19 @@ class HostedPagesAuthorizeRequest extends AbstractRequest
     protected $action = 'preauth';
     protected $mode = 'hostedpages';
 
+    protected $endpointPath = '/hosted/';
+
+    /**
+     * Get the path for the API.
+     */
+    public function getPath()
+    {
+        // This entry point works with GET or POST, whichever is convenient,
+        // since this is where we will be sending the user to.
+
+        return $this->endpointPath;
+    }
+
     public function getData()
     {
         $this->validate('amount');

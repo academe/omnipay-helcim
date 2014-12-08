@@ -32,6 +32,11 @@ class HostedPagesCompleteAuthorizeRequest extends AbstractRequest
     protected $mode = 'hostedpages';
 
     /**
+     * We don't really nned this abstract method, but it needs to be concrete.
+     */
+    public function getPath() {}
+
+    /**
      * The fields we will check for potential manipultation by the user in the first or final POST.
      * Some of these may ultimately be optional, such as the amount.
      */

@@ -16,15 +16,17 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
      * The parts used to construct the endpoint URL.
      * The developer accounts use a different domain to the active (live) accounts.
      * In addition, the active accounts can be run in live or test mode.
+     * TODO: these should be constants.
      */
     protected $endpointScheme = 'https';
 
     protected $endpointDevDomain = 'gatewaytest.helcim.com';
     protected $endpointProdDomain = 'gateway.helcim.com';
 
-    protected $endpointPathHostedPages = '/hosted/';
-    protected $endpointPathDirectHistory = '/api/';
-    protected $endpointPathDirectActions = '/';
+    //protected $endpointPathHostedPages = '/hosted/';
+    //protected $endpointPathDirectHistory = '/api/';
+    //protected $endpointPathDirectActions = '/';
+    //protected $endpointPathJS = '/js/version{version}.js';
 
     /**
      * The transaction action (type).
@@ -551,6 +553,11 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
     }
 
     /**
+     * Get the path for the API.
+     */
+    public abstract function getPath();
+
+    /**
      * The endpoint varies depending on developer mode, and whether the method is GET or POST.
      * If the method is GET, then the data needs to be added to the URL here. I've not found any
      * helper functions to construct URLs in omnipay, but they could be there.
@@ -564,6 +571,8 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
     {
         $domain = $this->getDeveloperMode() ? $this->endpointDevDomain : $this->endpointProdDomain;
 
+        $path = $this->getPath();
+/*
         switch($this->mode) {
             case 'direct':
                 // The Direct entry point works only with POST, and the search
@@ -587,10 +596,19 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
                 $path = $this->endpointPathHostedPages;
                 break;
 
+            case 'js':
+                // This entry point provides the URL to the JavaScript that implements the functionality
+
+                $this->setMethod('POST');
+
+                $version = 1; // TODO: get this from the message.
+                $path = str_replace('{version}', $this->version, $this->endpointPathJS;
+                break;
+
             default:
                 throw new InvalidRequestException('Invalid mode.');
         }
-
+*/
         // Build the URL from the parts.
         // There is a dependency on Guzzle here, which OmniPay uses, but may be a
         // bit of an assumption in the longer term.

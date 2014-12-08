@@ -10,6 +10,30 @@ class DirectAuthorizeRequest extends AbstractRequest
     protected $action = 'preauth';
     protected $mode = 'direct';
 
+    protected $endpointPathHistory = '/api/';
+    protected $endpointPathActions = '/';
+
+    /**
+     * Get the path for the API.
+     */
+    public function getPath()
+    {
+        // The Direct entry point works only with POST, and the search
+        // entry point can work with either, so we stick with POST.
+
+        // The search (aka history) API has a different entry point to
+        // all the other Direct actions. It also supports both GET and POST.
+
+        if ($this->action == 'search') {
+            $path = $this->endpointPathHistory;
+        } else {
+            $this->setMethod('POST');
+            $path = $this->endpointPathActions;
+        }
+
+        return $path;
+    }
+
     /**
      * Collect the data together to sent to the Gateway.
      */
