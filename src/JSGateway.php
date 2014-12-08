@@ -3,7 +3,8 @@
 namespace Omnipay\Helcim;
 
 /**
- * Helcim JS Version 1 (2014-10) Class
+ * Helcim JS Version 1 Class 
+ * Version 1 was released 2014-10
  */
 class JSGateway extends AbstractCommonGateway
 {
@@ -11,12 +12,6 @@ class JSGateway extends AbstractCommonGateway
     {
         return 'Helcim.JS';
     }
-
-    /**
-     * The API version.
-     * Furture versions will have different names, e.g. JS2Gateway
-     */
-    const $version = '1';
 
     /**
      * For handling a purchase.
