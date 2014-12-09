@@ -25,8 +25,10 @@ When the user submits the form, the following happens:
    hidden fields and the form is submitted to your server.
 4. The server should then use the Direct API to fetch the details of the transaction
    from the Helcim server.
+5. The transaction will be an authorisation only, so a Direct `capture` will be needed
+   later to take the authorised payment.
 
-As for teh Hosted Pages mode, the data POSTed back to your site can be manipulated by
+As for the Hosted Pages mode, the data POSTed back to your site can be manipulated by
 the end user, and so should not be trusted. For this reason, it is important to create
 an order ID and track that in the session. The order ID can then be used to fetch the
 transaction from Helcim and compare it to what was submitted.
@@ -40,7 +42,7 @@ The `JSpurchaseRequest` class is used as a helper for generating the initial for
 server, and validates the transaction against Direct API.
 
 If the transaction fails, then the POSTed response to the server will include a "response"
-value of 0.
+value of zero.
 
 There are a few issues with the documentation that need to be cleared up:
 
@@ -51,7 +53,9 @@ There are a few issues with the documentation that need to be cleared up:
 2. The documentation states that the helcim.js API supports only "purchase" transactions. It then
    describes only "preauth" (authorisation) transactions. I suspecty the former is a typo and the
    latter is the reality. The amount field is optional, with a non-present amount being used
-   just to obtain a card token.
+   just to obtain a card token. The amount field is not actually listed in the fields list, and
+   only appears in the PHP code sample (and with two "id" attributes, one of which is assumed to
+   be a type of "name", or maybe not).
 
 Several differences to note with this API, just to make sure there are enough exceptions to keep
 us busy:
