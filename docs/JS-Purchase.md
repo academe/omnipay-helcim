@@ -39,6 +39,26 @@ The `JSpurchaseRequest` class is used as a helper for generating the initial for
 `JScompletePpurchaseRequest` class handles the data submitted by the payment form to your
 server, and validates the transaction against Direct API.
 
-TO CHECK: what happens when failed retry attempts are exceeded? Is the final result
-still submitted to your site?
+If the transaction fails, then the POSTed response to the server will include a "response"
+value of 0.
+
+There are a few issues with the documentation that need to be cleared up:
+
+1. The documentation states that sensitive credit card data is never submitted to your server,
+   and the user-entered expiry date does not have a field name, meaning that it is not submitted.
+   However, after a successful authorisation, `expiryDate` is submitted back to your server
+   anyway after being inserted by the JavaScript.
+2. The documentation states that the helcim.js API supports only "purchase" transactions. It then
+   describes only "preauth" (authorisation) transactions. I suspecty the former is a typo and the
+   latter is the reality. The amount field is optional, with a non-present amount being used
+   just to obtain a card token.
+
+Several differences to note with this API, just to make sure there are enough exceptions to keep
+us busy:
+
+1. The javascript is loaded from the same URL regardless of whether running against the test or
+   the live system. Instead, a `dev` field indicates which system the form will be POSTed to.
+2. The other interfaces require a `allowZeroAmount` flag to be set if a zero amount is being
+   submitted. This API does not. The other APIs also make the amount mandatory, even if zero,
+   while this API leaves it entirely optional, so it can be left off the form.
 
