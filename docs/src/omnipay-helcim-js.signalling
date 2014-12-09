@@ -41,7 +41,7 @@ msc {
 
             UB -- UB [label="Response Embedded into Form"];
 
-            UB -> App [label="POST Completed Form"];
+            UB -> App [label="JavaScript POST of Completed Form"];
         };
         App -> OP [label="gateway::authorize()"];
         OP -> HD [label="JSAuthorizeRequest()"];
