@@ -1,11 +1,6 @@
 
-# omnipay/helcim (Helcim-HostedPaged, success path)
+# omnipay/helcim (Helcim-JS, success path)
 # Author: Jason Judge <jason@academe.co.uk>
-#
-# Version: very rough first draft for comment.
-# It kind of mixes up data flows and process calls
-# in the arcs, so be wary of that, until it is
-# refined.
 #
 # It is going to be helpful to list the important
 # data items in each flow. These items all have two
@@ -20,37 +15,43 @@ msc {
 
     # Title
     title: OmniPay-Helcim;
-    subtitle: Helcim-HostedPages (Purchase, success path);
+    subtitle: Helcim-JS (Authorize, success path);
 
     # Entities
     App [label="Application"],
     OP [label="OmniPay"],
     HD [label="Helcim Driver"],
-    HHP [label="Helcim HostedPages"];
+    UB [label="User Browser"],
+    HJS [label="Helcim JS API"];
     HDG [label="Helcim Direct"];
 
 
     # Process/Arcs
-    App -- App [label="Collect Personal Details"];
 
-    App..App: Initialisation
+    App..App: User Authorization
     {
-        App -> OP [label="gateway::purchase()"];
-        OP -> HD [label="HostedPagesPurchaseRequest()"];
-        HD -> OP -> App [label="HostedPagesResponse()"];
-        App -> HHP [label="POST redirect"];
-        comment: Each form will have a unique and\npublic token of its own.;
+        UB..UB: AJAX Form
+        {
+            App -> UB [label="Present Form To User"];
+            UB -> HJS [label="Get JavaScript"];
+            HJS -> UB [label="version1.js"];
 
-        HHP -- HHP [label="Get Card Details"];
-        HHP -- HHP [label="Authenticate Card Details"];
+            UB -> HJS [label="AJAX Authorization"];
+            HJS -> UB [label="Authorization Response"];
+
+            UB -- UB [label="Response Embedded into Form"];
+
+            UB -> App [label="POST Completed Form"];
+        };
+        App -> OP [label="gateway::authorize()"];
+        OP -> HD [label="JSAuthorizeRequest()"];
+        HD -> OP -> App [label="JSAuthorizeResponse()"];
     };
-
-        HHP -> App [label="POST redirect"];
 
     App..App: Security Check
     {
-        App -> OP [label="gateway::completePurchase()"];
-        OP -> HD [label="HostedPagesCompleteRequest()"];
+        App -> OP [label="gateway::completeAthorize()"];
+        OP -> HD [label="JSCompleteAuthorizeRequest()"];
         OP..HDG: Check the Transaction
         {
             HD -> OP [label="direct::fetchTransaction()"];
@@ -62,7 +63,7 @@ msc {
             HD -- HD [label="Validate Transaction Details"];
         };
         comment: The transaction can potentially be\nmanipulated by the user during the POSTs\nin both directions, so it is\nnecessary to check the transaction\nlogged on Helcim via the Helcim Direct API.;
-        HD -> OP -> App [label="HostedPagesCompleteResponse()"];
+        HD -> OP -> App [label="JSCompleteAuthorizeResponse()"];
         comment: It does seem that ONLY a successful payment\nor authorisation will ever return by this path.;
     }
 
@@ -72,6 +73,7 @@ msc {
         App -- App [label="Notify User"];
     };
 
+    App -- App [label="Capture Payment (when shipped)"];
 
     #SP -> App [label="Order Complete"];
     #App -- App [label="(alt2) Process Complete Basket Items"];
