@@ -16,16 +16,16 @@ class JSGateway extends AbstractCommonGateway
     /**
      * For handling a purchase.
      */
-    public function purchase(array $parameters = array())
+    public function authorize(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Helcim\Message\JSPurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\Helcim\Message\JSAuthorizeRequest', $parameters);
     }
 
     /**
     * For the return path from the remote Hosted Page.
     */
-    public function completePurchase(array $parameters = array())
+    public function completeAuthorize(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Helcim\Message\JSCompletePurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\Helcim\Message\JSAuthorizePurchaseRequest', $parameters);
     }
 }

@@ -79,6 +79,16 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
         return $this->getParameter('allowZeroAmount');
     }
 
+    public function setCardholderName($value)
+    {
+        return $this->setParameter('cardholderName', $value);
+    }
+
+    public function getCardholderName()
+    {
+        return $this->getParameter('cardholderName');
+    }
+
     // The cardHolder Address and PostalCode feeds into address verification services.
 
     public function setCardholderAddress($value)
