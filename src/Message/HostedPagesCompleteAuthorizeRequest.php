@@ -89,7 +89,7 @@ class HostedPagesCompleteAuthorizeRequest extends AbstractRequest
      * We won't be doing any validation on custom fields. It is not clear whether they are
      * only sent by the form, or stored on the account in the transaction too.
      *
-     * @raises \InvalidRequestException (TODO: there are OmniPay exceptions we can use here)
+     * @raises Omnipay\Common\Exception\InvalidRequestException
      */
     public function getData()
     {
@@ -106,11 +106,14 @@ class HostedPagesCompleteAuthorizeRequest extends AbstractRequest
         // fetch the transaction. No other field is safe, especially the transactionId,
         // whith passes through the user's browser before the application ever sees it.
 
-        if ( ! $this->getTransactionId()) {
+        if (!$this->getTransactionId()) {
             throw new InvalidRequestException('No transactionId supplied for security checks.');
         }
 
         // Create a brand new Direct gateway to fetch the transaction.
+        // FIXME: this is where we need to look at how this works. Creating a whole
+        // new direct driver here is great for production, but awful to test.
+
         $gateway = Omnipay::create('Helcim_Direct');
 
         // Reuse our current credentials.
@@ -132,7 +135,7 @@ class HostedPagesCompleteAuthorizeRequest extends AbstractRequest
         $fetch_transaction = $fetch_response->getTransaction();
 
         // If there is no transaction, then this is an error.
-        if ( ! $fetch_response->isSuccessful()) {
+        if (!$fetch_response->isSuccessful()) {
             throw new InvalidRequestException(sprintf('Cannot retrieve transaction (%s)', $fetch_response->getErrorMessage()));
         }
 

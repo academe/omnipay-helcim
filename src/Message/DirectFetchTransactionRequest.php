@@ -18,6 +18,8 @@ class DirectFetchTransactionRequest extends AbstractRequest implements RequestIn
     protected $action = 'search';
     protected $mode = 'direct';
 
+    protected $endpointPathHistory = '/api/';
+
     /**
      * Collect the data together that will be sent to the API.
      * We can now include the orderId or the transactionId in the search.
@@ -48,6 +50,16 @@ class DirectFetchTransactionRequest extends AbstractRequest implements RequestIn
 
         return $data;
     }
+
+    /**
+     * Get the path for the API.
+     * The "history" API is under the path /api/.
+     */
+    public function getPath()
+    {
+        return $this->endpointPathHistory;
+    }
+
 
     /**
      *
@@ -163,5 +175,4 @@ class DirectFetchTransactionRequest extends AbstractRequest implements RequestIn
     {
         return $this->getParameter('search');
     }
-
 }
