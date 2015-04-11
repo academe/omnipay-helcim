@@ -32,9 +32,10 @@ class HostedPagesCompleteAuthorizeRequest extends AbstractRequest
     protected $mode = 'hostedpages';
 
     /**
-     * We don't really nned this abstract method, but it needs to be concrete.
+     * We don't really need this abstract method, but it needs to be concrete.
      */
-    public function getPath() {}
+    public function getPath() {
+    }
 
     /**
      * The fields we will check for potential manipultation by the user in the first or final POST.
@@ -136,7 +137,9 @@ class HostedPagesCompleteAuthorizeRequest extends AbstractRequest
 
         // If there is no transaction, then this is an error.
         if (!$fetch_response->isSuccessful()) {
-            throw new InvalidRequestException(sprintf('Cannot retrieve transaction (%s)', $fetch_response->getErrorMessage()));
+            throw new InvalidRequestException(
+                sprintf('Cannot retrieve transaction (%s)', $fetch_response->getErrorMessage())
+            );
         }
 
         // We also need to look at what was posted - the result as claimed
@@ -150,9 +153,14 @@ class HostedPagesCompleteAuthorizeRequest extends AbstractRequest
         $direct_string = '';
         $posted_string = '';
 
-        foreach(static::$hash_parameters as $hash_parameter) {
-            if (isset($fetch_transaction[$hash_parameter])) $direct_string .= ':' . $fetch_transaction[$hash_parameter];
-            if (isset($posted_transaction[$hash_parameter])) $posted_string .= ':' . $posted_transaction[$hash_parameter];
+        foreach (static::$hash_parameters as $hash_parameter) {
+            if (isset($fetch_transaction[$hash_parameter])) {
+                $direct_string .= ':' . $fetch_transaction[$hash_parameter];
+            }
+
+            if (isset($posted_transaction[$hash_parameter])) {
+                $posted_string .= ':' . $posted_transaction[$hash_parameter];
+            }
 
             // The action ("type" of transaction) won't be included in the POSTed data, so we add it in.
             // For this to work, the application needs to appropriately call CompleteAuthorize()

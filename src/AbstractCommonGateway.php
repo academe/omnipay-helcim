@@ -28,7 +28,7 @@ abstract class AbstractCommonGateway extends AbstractGateway
      */
     public function setMerchantId($merchant_id)
     {
-        if ( ! is_numeric($merchant_id)) {
+        if (!is_numeric($merchant_id)) {
             throw new InvalidRequestException(sprintf('Merchant ID must be numeric (%s)', $merchant_id));
         }
 
@@ -81,5 +81,4 @@ abstract class AbstractCommonGateway extends AbstractGateway
     {
         return $this->getParameter('method');
     }
-
 }

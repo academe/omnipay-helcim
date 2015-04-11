@@ -34,7 +34,7 @@ class DirectGateway extends AbstractCommonGateway
     // These could possibly be intermationally standardised, so may be better
     // in OmniPay core or shared in some other way.
 
-    static $avs_response_codes = array(
+    public static $avs_response_codes = array(
         'A' => 'Address (Street) matches, Zip does not.',
         'B' => 'Street address match, Postal code in wrong format. (international issuer)',
         'C' => 'Street address and postal code in wrong formats',

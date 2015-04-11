@@ -495,7 +495,7 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
 
         // If no cart (no item bag of items) has been set, then return.
 
-        if ( ! isset($items)) {
+        if (!isset($items)) {
             return $cart;
         }
 
@@ -504,7 +504,7 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
         // Each item must be sequentially numbered.
         $item_number = 1;
 
-        foreach($items as $item) {
+        foreach ($items as $item) {
             //$item_id = $item->getParameter('sku');
             $item_description = $item->getName();
             $item_quantity = $item->getQuantity();
@@ -565,7 +565,7 @@ abstract class AbstractRequest extends OmnipayAbstractRequest
     /**
      * Get the path for the API.
      */
-    public abstract function getPath();
+    abstract public function getPath();
 
     /**
      * The endpoint varies depending on developer mode, and whether the method is GET or POST.

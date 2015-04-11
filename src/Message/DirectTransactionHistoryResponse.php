@@ -41,7 +41,7 @@ class DirectTransactionHistoryResponse extends DirectFetchTransactionResponse im
             if ($transaction_count > 0) {
                 // Add each transaction, as an object, to the list.
 
-                foreach($data->transactions->children() as $transaction) {
+                foreach ($data->transactions->children() as $transaction) {
                     $this->transactions[] = new DirectFetchTransactionResponse($this->request, $transaction);
                 }
             }

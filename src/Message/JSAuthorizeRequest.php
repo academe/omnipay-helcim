@@ -47,7 +47,7 @@ class JSAuthorizeRequest extends AbstractRequest
     public function getPath()
     {
         // This entry point provides the URL to the JavaScript that implements the
-        // authorization functionality. 
+        // authorization functionality.
 
         // The endpoint should never inherit GET parameters.
         $this->setMethod('POST');

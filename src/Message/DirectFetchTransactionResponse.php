@@ -29,7 +29,7 @@ class DirectFetchTransactionResponse extends AbstractResponse
             // No matches just warrants an error message. It is not
             // an exception at this point.
             $this->setErrorMessage('No match found.');
-        } elseif (isset($data->error_message)) {;
+        } elseif (isset($data->error_message)) {
             // Check if this is an XML error.
             $this->setErrorMessage((string)$data->error_message);
         }
@@ -45,7 +45,7 @@ class DirectFetchTransactionResponse extends AbstractResponse
             // Remove everything but the decimal number.
             $data->amount = preg_replace('/[^0-9.]/', '', (string)$data->amount);
 
-            foreach($data as $element) {
+            foreach ($data as $element) {
                 $element_name = $element->getName();
 
                 // Revisit the card return. OmniPay is not geared up for translating fields

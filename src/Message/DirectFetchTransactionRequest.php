@@ -37,7 +37,9 @@ class DirectFetchTransactionRequest extends AbstractRequest implements RequestIn
             $this->setSearch($this->getTransactionReference());
         } else {
             // No valid search parameter provided.
-            throw new InvalidRequestException('Missing transactionId or transactionReference; needed to fetch a single transaction.');
+            throw new InvalidRequestException(
+                'Missing transactionId or transactionReference; needed to fetch a single transaction.'
+            );
         }
 
         // Get the base data.
@@ -109,7 +111,7 @@ class DirectFetchTransactionRequest extends AbstractRequest implements RequestIn
                 $transaction_reference = $this->getTransactionReference();
 
                 // Loop for each transaction.
-                foreach($data->transactions->transaction as $transaction) {
+                foreach ($data->transactions->transaction as $transaction) {
                     if (
                         ($transaction_id && (string)$transaction->orderId === $transaction_id)
                         || ($transaction_reference && (string)$transaction->transactionId === $transaction_reference)
