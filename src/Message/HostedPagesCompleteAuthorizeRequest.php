@@ -34,7 +34,8 @@ class HostedPagesCompleteAuthorizeRequest extends AbstractRequest
     /**
      * We don't really need this abstract method, but it needs to be concrete.
      */
-    public function getPath() {
+    public function getPath()
+    {
     }
 
     /**
@@ -190,7 +191,7 @@ class HostedPagesCompleteAuthorizeRequest extends AbstractRequest
 
         // Some additional fields will be POSTed here, and will not be stored anywhere.
 
-        foreach(static::$additional_fields as $extra_posted) {
+        foreach (static::$additional_fields as $extra_posted) {
             if (isset($posted_transaction[$extra_posted])) {
                 $fetch_transaction[$extra_posted] = $posted_transaction[$extra_posted];
             }
