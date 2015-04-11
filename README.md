@@ -38,7 +38,7 @@ No, none yet. If you can help, then please do. Would be much appreciated.
 
 ## TODO
 
-Functionality still to be implemented:
+Functionality still to be implemented (ticked off when done):
 
 * [x] Direct Address Verification (Note 2)
 * [x] Direct Authorization
