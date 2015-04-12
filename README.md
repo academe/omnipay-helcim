@@ -1,5 +1,10 @@
 # Omnipay: Helcim Gateway
 
+[![Build Status](https://travis-ci.org/academe/omnipay-helcim.png?branch=master)](https://travis-ci.org/academe/omnipay-helcim)
+[![Latest Stable Version](https://poser.pugx.org/academe/omnipay-helcim/version.png)](https://packagist.org/packages/academe/omnipay-helcim)
+[![Total Downloads](https://poser.pugx.org/academe/omnipay-helcim/d/total.png)](https://packagist.org/packages/academe/omnipay-helcim)
+
+
 **Helcim driver for the Omnipay v2 PHP payment processing library**
 
 Work in progress. First thing to get working is the Helcim Hosted Pages for purchases.
