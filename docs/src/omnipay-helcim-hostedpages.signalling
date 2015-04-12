@@ -46,10 +46,12 @@ msc {
     };
 
         HHP -> App [label="POST redirect"];
+        comment: The POST comes back to the "Approvment URL"\ndefined in the hosted form;
 
     App..App: Security Check
     {
         App -> OP [label="gateway::completePurchase()"];
+        comment: The completePurchase() will read\nthe data POSted from Helcim;
         OP -> HD [label="HostedPagesCompleteRequest()"];
         OP..HDG: Check the Transaction
         {
